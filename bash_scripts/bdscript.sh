@@ -20,11 +20,10 @@ read isofile
 echo Provide folder name to extract ISO in
 read foldername
 
-echo "Generate Screens ? [y/n]"
-read generatescreens
+read -e -p "Generate Screens ? [Y/n]" generatescreens
 
 
-if [[ $generatescreens -eq "y" ]]; then
+if [[ $generatescreens == "y" || $generatescreens == "Y" || $generatescreens == "" ]]; then
   echo "Number of screens"
   read ssnum
   
