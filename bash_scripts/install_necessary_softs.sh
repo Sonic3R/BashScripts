@@ -1,6 +1,7 @@
 read -e -p "Install .NET Core runtime [Y/n]?" installnetcore
 
 if [[ $installnetcore == "y" || $installnetcore == "Y" || $installnetcore == "" ]]; then
+  clear
   echo "Installing .NET Core runtime"
   package="aspnetcore-runtime-3.1"
 
@@ -17,17 +18,19 @@ fi
 read -e -p "Install FFMPEG [Y/n]?" installffmpeg
 
 if [[ $installffmpeg == "y" || $installffmpeg == "Y" || $installffmpeg == "" ]]; then
+  clear
   sudo apt-get install ffmpeg
 fi
 
 echo -e -p "Install FTP Server [Y/n] ?" installftp
 
 if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
+  clear
   echo "Provide FTP user:"
   read ftpuser
 
-  echo "Provide FTP password:"
-  read -s password
+  #echo "Provide FTP password:"
+  #read -s password
 
   echo "Installing ftp server"
   sudo apt-get update
@@ -51,7 +54,7 @@ if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
   sudo ufw allow 40000:50000/tcp
 
   echo "Downloading config model"
-  sudo wget https://raw.githubusercontent.com/Sonic3R/BashScripts/master/scripts/vsftpd.conf -O /home/vsftpd.conf
+  sudo wget https://raw.githubusercontent.com/Sonic3R/Scripts/master/bash_scripts/vsftpd.conf -O /home/vsftpd.conf
   sudo cp /home/vsftpd.conf /etc/vsftpd.conf
   
   sudo systemctl restart vsftpd
@@ -60,6 +63,7 @@ fi
 read -e -p "Mount data disk [Y/n] (after mounting disk the system will reboot) ?" mountdatadisk
 
 if [[ $mountdatadisk == "y" || $mountdatadisk == "Y" || $mountdatadisk == "" ]]; then
+  clear
   dmesg | grep SCSI
 
   echo "Partition number. ex 1..2..3"
