@@ -78,7 +78,7 @@
             "value": "UbuntuRG"
         },
         "osDiskType": {
-            "value": "Standard_LRS"
+            "value": "UltraSSD_LRS"
         },
         "dataDisks": {
             "value": [
@@ -101,7 +101,7 @@
             "value": [
                 {
                     "name": "UbuntuVM_DataDisk_0",
-                    "sku": "Standard_LRS",
+                    "sku": "UltraSSD_LRS",
                     "properties": {
                         "diskSizeGB": 128,
                         "creationData": {
