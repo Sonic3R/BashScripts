@@ -102,10 +102,10 @@
             "value": "Standard_D2s_v3"
         },
         "adminUsername": {
-            "value": "tmm2012"
+            "value": "@@user"
         },
         "adminPassword": {
-            "value": "Automatica_2008^"
+            "value": "@@pass"
         },
         "autoShutdownStatus": {
             "value": "Enabled"
