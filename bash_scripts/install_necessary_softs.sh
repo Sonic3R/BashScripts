@@ -1,7 +1,6 @@
-echo "Install .NET Core runtime [y/n]?"
-read installnetcore
+read -e -p "Install .NET Core runtime [Y/n]?" installnetcore
 
-if [[ $installnetcore -eq "y" ]]; then
+if [[ $installnetcore == "y" || $installnetcore == "Y" || $installnetcore == "" ]]; then
   echo "Installing .NET Core runtime"
   package="aspnetcore-runtime-3.1"
 
