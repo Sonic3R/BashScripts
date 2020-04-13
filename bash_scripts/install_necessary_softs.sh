@@ -45,8 +45,8 @@ if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
   #echo -e "$password\n$password" | sudo passwd $ftpuser
 
   echo "Setting permissions"
-  sudo mkdir /home/$ftpuser/FTP
-  sudo chmod 777 /home/emipro/$ftpuser/FTP
+  sudo chmod 777 /home/$ftpuser
+  sudo chown $ftpuser /home/$ftpuser
 
   echo $ftpuser | sudo tee -a /etc/vsftpd.userlist
   cat /etc/vsftpd.userlist
