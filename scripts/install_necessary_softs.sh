@@ -59,3 +59,36 @@ if [ $installftp -eq "y" ]; then
   
   sudo systemctl restart vsftpd
 fi
+
+echo "Mount data disk [y/n] (after mounting disk the system will reboot) ?"
+read mountdatadisk
+
+if [ $mountdatadisk -eq "y" ]; then
+  dmesg | grep SCSI
+
+  echo "Partition number. ex 1..2..3"
+  read partnumber
+
+  echo "Provide folder name for mounting"
+  read datadrivefolder
+
+  (
+  echo o
+  echo n
+  echo p
+  echo $partnumber
+  echo
+  echo
+  echo w
+  ) | sudo fdisk /dev/sdc
+
+  sudo mkfs -t ext4 /dev/sdc$partnumber
+  sudo mkdir /$datadrivefolder
+  sudo mount /dev/sdc$partnumber /$datadrivefolder
+
+  partitionuid=$(sudo blkid -o value -s UUID /dev/sdc$partnumber)
+  line="UUID=$partitionuid\t/$datadrivefolder\text4\tdefaults,nofail\t1 2"
+  echo -e $line >> /etc/fstab
+
+  sudo reboot
+fi
