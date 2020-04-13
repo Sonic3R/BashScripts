@@ -13,19 +13,32 @@
         },
         "networkSecurityGroupRules": {
             "value": [
-                {
-                    "name": "SSH",
-                    "properties": {
-                        "priority": 300,
-                        "protocol": "TCP",
-                        "access": "Allow",
-                        "direction": "Inbound",
-                        "sourceAddressPrefix": "*",
-                        "sourcePortRange": "*",
-                        "destinationAddressPrefix": "*",
-                        "destinationPortRange": "22"
-                    }
+              {
+                "name": "SSH",
+                "properties": {
+                  "priority": 300,
+                  "protocol": "TCP",
+                  "access": "Allow",
+                  "direction": "Inbound",
+                  "sourceAddressPrefix": "*",
+                  "sourcePortRange": "*",
+                  "destinationAddressPrefix": "*",
+                  "destinationPortRange": "22"
                 }
+              },
+              {
+                "name": "FTP",
+                "properties": {
+                  "priority": 310,
+                  "protocol": "*",
+                  "access": "Allow",
+                  "direction": "Inbound",
+                  "sourceAddressPrefix": "*",
+                  "sourcePortRange": "*",
+                  "destinationAddressPrefix": "*",
+                  "destinationPortRange": "20-21;40000-50000"
+                }
+              }
             ]
         },
         "subnetName": {
