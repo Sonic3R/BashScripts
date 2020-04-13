@@ -97,5 +97,5 @@ read -e -p "Copy bdinfo bash script [Y/n] ?" bdinfoscript
 if [[ $bdinfoscript == "y" || $bdinfoscript == "Y" || $bdinfoscript == "" ]];then
   read -e -p "Provide location to save" bdinfolocation
 
-  sudo wget https://raw.githubusercontent.com/Sonic3R/Scripts/master/bash_scripts/bdscript.sh -O $bdinfolocation/bdscript.sh
+  sudo wget https://raw.githubusercontent.com/Sonic3R/Scripts/master/bash_scripts/bdscript_with_remote.sh -O $bdinfolocation/bdscript.sh
 fi
