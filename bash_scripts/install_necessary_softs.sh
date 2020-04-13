@@ -22,7 +22,7 @@ if [[ $installffmpeg == "y" || $installffmpeg == "Y" || $installffmpeg == "" ]];
   sudo apt-get install ffmpeg
 fi
 
-echo -e -p "Install FTP Server [Y/n] ?" installftp
+read -e -p "Install FTP Server [Y/n] ?" installftp
 
 if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
   clear
