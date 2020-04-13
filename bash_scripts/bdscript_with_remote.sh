@@ -8,6 +8,7 @@ remoteuser="Sonic3R"
 remoteport=23437
 remoteip='185.56.20.10'
 screenshotnum=0
+remotepasswd=""
 
 if [[ ! -d "$mntdisk" ]]; then
   echo "$mntdisk does not exist !"
@@ -37,11 +38,13 @@ if [[ $generatescreens == "y" || $generatescreens == "Y" || $generatescreens == 
   fi
 fi
 
+read -p "Password: " -s remotepasswd
+
 [ ! -d "$isodir" ] && sudo mkdir "$isodir"
 
 if [ ! -f "$mntdisk/$isofile" ]; then
-  echo Copying ISO from remote
-  scp -r -P $remoteport $remoteuser@$remoteip:$remotepath/$isofile $mntdisk/$isofile
+  echo Copying ISO from remote 
+  echo -e $remotepasswd | scp -r -P $remoteport $remoteuser@$remoteip:$remotepath/$isofile $mntdisk/$isofile
 fi
 
 if [[ $? -eq 1 ]]; then
@@ -127,7 +130,7 @@ if [[ $? -eq 1 ]]; then
 fi
 
 echo Copying to seedbox
-scp -r -P $remoteport $mntdisk/$foldername $remoteuser@$remoteip:$remotepath/
+echo -e $remotepasswd | scp -r -P $remoteport $mntdisk/$foldername $remoteuser@$remoteip:$remotepath/
 
 if [[ $? -eq 1 ]]; then
   echo Copying to seedbox failed
