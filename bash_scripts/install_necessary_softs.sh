@@ -29,8 +29,8 @@ if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
   echo "Provide FTP user:"
   read ftpuser
 
-  #echo "Provide FTP password:"
-  #read -s password
+  echo "Provide FTP password:"
+  read -s password
 
   echo "Installing ftp server"
   sudo apt-get update
@@ -41,8 +41,8 @@ if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
   sudo mkdir /home/$ftpuser
 
   echo "Add user $ftpuser and set it's password"
-  sudo adduser --home=/home/$ftpuser $ftpuser
-  echo -e "$password\n$password" | sudo passwd $ftpuser
+  echo -e "$password\n$password\n\n\n\n\n\ny" | sudo adduser --home=/home/$ftpuser $ftpuser
+  #echo -e "$password\n$password" | sudo passwd $ftpuser
 
   echo "Setting permissions"
   sudo mkdir /home/$ftpuser/FTP
