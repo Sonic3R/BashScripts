@@ -14,21 +14,19 @@ if [[ $installnetcore == "y" || $installnetcore == "Y" || $installnetcore == "" 
   sudo apt-get install $package
 fi
 
-echo "Install FFMPEG [y/n]?"
-read installffmpeg
+read -e -p "Install FFMPEG [Y/n]?" installffmpeg
 
-if [[ $installffmpeg -eq "y" ]]; then
+if [[ $installffmpeg == "y" || $installffmpeg == "Y" || $installffmpeg == "" ]]; then
   sudo apt-get install ffmpeg
 fi
 
-echo "Install FTP Server [y/n] ?"
-read installftp
+echo -e -p "Install FTP Server [Y/n] ?" installftp
 
-if [[ $installftp -eq "y" ]]; then
-  echo "Provide FTP user"
+if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
+  echo "Provide FTP user:"
   read ftpuser
 
-  echo "Provide FTP password"
+  echo "Provide FTP password:"
   read -s password
 
   echo "Installing ftp server"
@@ -59,10 +57,9 @@ if [[ $installftp -eq "y" ]]; then
   sudo systemctl restart vsftpd
 fi
 
-echo "Mount data disk [y/n] (after mounting disk the system will reboot) ?"
-read mountdatadisk
+read -e -p "Mount data disk [Y/n] (after mounting disk the system will reboot) ?" mountdatadisk
 
-if [[ $mountdatadisk -eq "y" ]]; then
+if [[ $mountdatadisk == "y" || $mountdatadisk == "Y" || $mountdatadisk == "" ]]; then
   dmesg | grep SCSI
 
   echo "Partition number. ex 1..2..3"
