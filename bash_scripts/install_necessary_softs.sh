@@ -1,7 +1,7 @@
 echo "Install .NET Core runtime [y/n]?"
 read installnetcore
 
-if [ $installnetcore -eq "y" ]; then
+if [[ $installnetcore -eq "y" ]]; then
   echo "Installing .NET Core runtime"
   package="aspnetcore-runtime-3.1"
 
@@ -18,14 +18,14 @@ fi
 echo "Install FFMPEG [y/n]?"
 read installffmpeg
 
-if [ $installffmpeg -eq "y" ]; then
+if [[ $installffmpeg -eq "y" ]]; then
   sudo apt-get install ffmpeg
 fi
 
 echo "Install FTP Server [y/n] ?"
 read installftp
 
-if [ $installftp -eq "y" ]; then
+if [[ $installftp -eq "y" ]]; then
   echo "Provide FTP user"
   read ftpuser
 
@@ -63,7 +63,7 @@ fi
 echo "Mount data disk [y/n] (after mounting disk the system will reboot) ?"
 read mountdatadisk
 
-if [ $mountdatadisk -eq "y" ]; then
+if [[ $mountdatadisk -eq "y" ]]; then
   dmesg | grep SCSI
 
   echo "Partition number. ex 1..2..3"
