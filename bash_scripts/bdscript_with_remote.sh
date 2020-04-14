@@ -48,9 +48,9 @@ fi
 
 clear
 
-read -e -p "Use kabul ? [y/N]" usekabul
+read -e -p "Use other host ? [y/N]" useotherhost
 
-if [[ $usekabul == "Y" || $usekabul == "y" ]]; then
+if [[ $useotherhost == "Y" || $useotherhost == "y" ]]; then
   remoteuser="r0gu3ptm"
   remoteport=24370
   remoteip='88.198.43.92'
@@ -68,7 +68,7 @@ echo "Provide remote output folder (default: /downloads/extract)"
 read remotepath
 
 if [[ $remotepath == "" ]]; then
-  if [[ $usekabul == "Y" || $usekabul == "y" ]]; then
+  if [[ $useotherhost == "Y" || $useotherhost == "y" ]]; then
     remotepath="/home/r0gu3ptm/rtorrent/download/extract"
   else
     remotepath="/downloads/extract"
