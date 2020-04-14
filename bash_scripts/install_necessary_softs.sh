@@ -1,3 +1,6 @@
+echo "Your current user name"
+read currentuser
+
 read -e -p "Install .NET Core runtime [Y/n]?" installnetcore
 
 if [[ $installnetcore == "y" || $installnetcore == "Y" || $installnetcore == "" ]]; then
@@ -12,14 +15,14 @@ if [[ $installnetcore == "y" || $installnetcore == "Y" || $installnetcore == "" 
   sudo apt-get update
   sudo apt-get install apt-transport-https
   sudo apt-get update
-  sudo apt-get install $package
+  echo -e "Y" | sudo apt-get install $package
 fi
 
 read -e -p "Install FFMPEG [Y/n]?" installffmpeg
 
 if [[ $installffmpeg == "y" || $installffmpeg == "Y" || $installffmpeg == "" ]]; then
   clear
-  sudo apt-get install ffmpeg
+  echo -e "Y" | sudo apt-get install ffmpeg
 fi
 
 read -e -p "Install FTP Server [Y/n] ?" installftp
@@ -34,7 +37,7 @@ if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
 
   echo "Installing ftp server"
   sudo apt-get update
-  sudo apt-get install vsftpd
+  echo -e "Y" | sudo apt-get install vsftpd
   sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
 
   echo "Create directory for $ftpuser"
@@ -46,7 +49,9 @@ if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
 
   echo "Setting permissions"
   sudo chmod 777 /home/$ftpuser
+
   sudo chown $ftpuser /home/$ftpuser
+  sudo chown $currentuser /home/$ftpuser
 
   echo $ftpuser | sudo tee -a /etc/vsftpd.userlist
   cat /etc/vsftpd.userlist
@@ -89,6 +94,8 @@ if [[ $mountdatadisk == "y" || $mountdatadisk == "Y" || $mountdatadisk == "" ]];
   partitionuid=$(sudo blkid -o value -s UUID /dev/sdc$partnumber)
   line="UUID=$partitionuid\t/$datadrivefolder\text4\tdefaults,nofail\t1 2"
   echo -e $line >> /etc/fstab
+
+  sudo chown $currentuser /$datadrivefolder
 
   sudo reboot
 fi
