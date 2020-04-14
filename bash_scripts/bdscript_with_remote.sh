@@ -44,6 +44,13 @@ read -p "Password: " -s remotepasswd
 
 clear
 
+echo "Provide remote output folder (default: /downloads/extract)"
+read remotepath
+
+if [[ $remotepath == "" ]]; then
+  remotepath="/downloads/extract"
+fi
+
 if [ ! -f "$mntdisk/$isofile" ]; then
   echo Copying ISO from remote 
   echo -e $remotepasswd | scp -r -P $remoteport $remoteuser@$remoteip:$remotepath/$isofile $mntdisk/$isofile
