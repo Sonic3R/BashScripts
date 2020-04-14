@@ -10,6 +10,8 @@ remoteip='185.56.20.10'
 screenshotnum=0
 remotepasswd=""
 
+clear
+
 if [[ ! -d "$mntdisk" ]]; then
   echo "$mntdisk does not exist !"
   exit 1

@@ -4,6 +4,8 @@ isodir="/mnt/iso"
 outputftp="/home/ftpuser"
 screenshotnum=0
 
+clear
+
 if [[ ! -d "$mntdisk" ]]; then
   echo "$mntdisk does not exist !"
   exit 1
