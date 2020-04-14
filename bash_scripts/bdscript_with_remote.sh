@@ -18,11 +18,17 @@ fi
 echo Provide iso file name
 read isofile
 
+clear
+
 echo Provide folder name to extract ISO in
 read foldername
 
+clear
+
 echo Provide output folder
 read outputftp
+
+clear 
 
 read -e -p "Generate Screens ? [Y/n]" generatescreens
 
@@ -38,7 +44,9 @@ if [[ $generatescreens == "y" || $generatescreens == "Y" || $generatescreens == 
   fi
 fi
 
-read -p "Password: " -s remotepasswd
+clear 
+
+read -p "Remote password (it will be used to copy content from remote and copy back to remote): " -s remotepasswd
 
 [ ! -d "$isodir" ] && sudo mkdir "$isodir"
 

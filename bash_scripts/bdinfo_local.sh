@@ -12,11 +12,17 @@ fi
 echo Provide iso file name
 read isofile
 
+clear
+
 echo Provide folder name to extract ISO in
 read foldername
 
+clear
+
 echo Provide output folder
 read outputftp
+
+clear
 
 read -e -p "Generate Screens ? [Y/n]" generatescreens
 
