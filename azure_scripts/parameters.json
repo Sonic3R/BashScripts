@@ -25,19 +25,6 @@
                   "destinationAddressPrefix": "*",
                   "destinationPortRange": "22"
                 }
-              },
-              {
-                "name": "FTP",
-                "properties": {
-                  "priority": 310,
-                  "protocol": "*",
-                  "access": "Allow",
-                  "direction": "Inbound",
-                  "sourceAddressPrefix": "*",
-                  "sourcePortRange": "*",
-                  "destinationAddressPrefix": "*",
-                  "destinationPortRange": "20-21;40000-50000"
-                }
               }
             ]
         },
@@ -78,7 +65,7 @@
             "value": "UbuntuRG"
         },
         "osDiskType": {
-            "value": "UltraSSD_LRS"
+          "value": "Standard_LRS"
         },
         "dataDisks": {
             "value": [
@@ -101,7 +88,7 @@
             "value": [
                 {
                     "name": "UbuntuVM_DataDisk_0",
-                    "sku": "UltraSSD_LRS",
+                    "sku": "Premium_LRS",
                     "properties": {
                         "diskSizeGB": 128,
                         "creationData": {
