@@ -42,6 +42,8 @@ read -p "Password: " -s remotepasswd
 
 [ ! -d "$isodir" ] && sudo mkdir "$isodir"
 
+clear
+
 if [ ! -f "$mntdisk/$isofile" ]; then
   echo Copying ISO from remote 
   echo -e $remotepasswd | scp -r -P $remoteport $remoteuser@$remoteip:$remotepath/$isofile $mntdisk/$isofile
@@ -52,6 +54,8 @@ if [[ $? -eq 1 ]]; then
   exit 1;
 fi
 
+clear
+
 if [ ! -d "$mntdisk/$foldername" ]; then
   echo Mounting $mntdisk/$isofile
   sudo mount -o loop $mntdisk/$isofile $isodir
@@ -61,6 +65,8 @@ if [ ! -d "$mntdisk/$foldername" ]; then
     exit 1;
   fi
 
+  clear
+
   echo Creating $foldername
   mkdir $mntdisk/$foldername
 
@@ -68,6 +74,8 @@ if [ ! -d "$mntdisk/$foldername" ]; then
     echo Creating folder $foldername failed
     exit 1;
   fi
+
+  clear
 
   echo Copying ISO content to $foldername
   scp -r $isodir/* $mntdisk/$foldername
@@ -77,6 +85,8 @@ if [ ! -d "$mntdisk/$foldername" ]; then
     exit 1;
   fi
 
+  clear
+
   echo Unmount ISO
   sudo umount $isodir
 
@@ -84,7 +94,11 @@ if [ ! -d "$mntdisk/$foldername" ]; then
     echo Unmounting ISO failed
     exit 1;
   fi
+
+  clear
 fi
+
+clear
 
 echo Generate bd info
 dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt"
@@ -93,6 +107,8 @@ if [[ $? -eq 1 ]]; then
   echo Generating info failed
   exit 1;
 fi
+
+clear
 
 if [[ $generatescreens -eq "y" ]]; then
   pkgs='ffmpeg'
@@ -129,6 +145,8 @@ if [[ $? -eq 1 ]]; then
   exit 1;
 fi
 
+clear
+
 echo Copying to seedbox
 echo -e $remotepasswd | scp -r -P $remoteport $mntdisk/$foldername $remoteuser@$remoteip:$remotepath/
 
@@ -136,6 +154,8 @@ if [[ $? -eq 1 ]]; then
   echo Copying to seedbox failed
   exit 1;
 fi
+
+clear
 
 echo Delete $foldername
 sudo rm -rf $mntdisk/$foldername
@@ -153,4 +173,6 @@ if [[ $? -eq 1 ]]; then
   exit 1;
 fi
 
-echo Done
+clear
+
+echo Done job
