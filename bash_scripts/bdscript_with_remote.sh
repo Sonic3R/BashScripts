@@ -132,7 +132,7 @@ fi
 
 clear
 
-if [[ $generatescreens -eq "y" ]]; then
+if [[ $generatescreens == "y" || $generatescreens == "Y" || $generatescreens == "" ]]; then
   pkgs='ffmpeg'
   if ! dpkg -s $pkgs >/dev/null 2>&1; then
     echo Installing $pkgs
