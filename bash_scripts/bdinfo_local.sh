@@ -77,7 +77,14 @@ fi
 clear
 
 echo Generate bd info
-dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt"
+if [[ -f "${outputftp}/${foldername}.txt" ]]; then
+  read -e -p "Generate BDInfo again ? [Y/n]" readbdinfo
+  if [[ $readbdinfo == "y" || $readbdinfo == "Y" || $readbdinfo == "" ]]; then
+    dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt"
+  fi
+else
+  dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt"
+fi
 
 if [[ $? -eq 1 ]]; then
   echo Generating info failed
