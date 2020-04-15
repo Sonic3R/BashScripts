@@ -88,10 +88,10 @@ echo Generate bd info
 if [[ -f "${outputftp}/${foldername}.txt" ]]; then
   read -e -p "Generate BDInfo again ? [Y/n]" readbdinfo
   if [[ $readbdinfo == "y" || $readbdinfo == "Y" || $readbdinfo == "" ]]; then
-    dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt" -z false
+    dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt" -g -b -a -l -y -k -m
   fi
 else
-  dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt" -z false
+  dotnet $mntdisk/bdinfo/BDInfo.dll -p $mntdisk/$foldername -r $outputftp -o "${foldername}.txt" -g -b -a -l -y -k -m
 fi
 
 if [[ $? -eq 1 ]]; then
