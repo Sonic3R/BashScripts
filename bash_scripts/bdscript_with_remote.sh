@@ -69,10 +69,12 @@ read remotepath
 
 if [[ $remotepath == "" ]]; then
   if [[ $useotherhost == "Y" || $useotherhost == "y" ]]; then
-    remotepath="/home/r0gu3ptm/rtorrent/download/extract"
+    remotepath="/home/r0gu3ptm/rtorrent/download/0000unpack"
   else
     remotepath="/downloads/extract"
   fi
+
+  echo "$remotepath will be used"
 fi
 
 if [ ! -f "$mntdisk/$isofile" ]; then
