@@ -66,7 +66,7 @@ if [ ! -d "$mntdisk/$foldername" ]; then
   clear
 
   echo Copying ISO content to $foldername
-  scp -r $isodir/* $mntdisk/$foldername
+  cp -v -r $isodir/* $mntdisk/$foldername
 
   if [[ $? -eq 1 ]]; then
     echo Copying ISO content to $foldername failed
