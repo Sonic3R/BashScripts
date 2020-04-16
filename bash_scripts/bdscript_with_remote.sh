@@ -8,7 +8,6 @@ remoteuser="Sonic3R"
 remoteport=23437
 remoteip='185.56.20.10'
 screenshotnum=0
-remotepasswd=""
 
 clear
 
@@ -58,8 +57,6 @@ fi
 
 clear 
 
-read -p "Remote password (it will be used to copy content from remote and copy back to remote): " -s remotepasswd
-
 [ ! -d "$isodir" ] && sudo mkdir "$isodir"
 
 clear
@@ -79,7 +76,7 @@ fi
 
 if [ ! -f "$mntdisk/$isofile" ]; then
   echo Copying ISO from remote 
-  echo -e $remotepasswd | scp -r -P $remoteport $remoteuser@$remoteip:$remotepath/$isofile $mntdisk/$isofile
+  scp -r -P $remoteport $remoteuser@$remoteip:$remotepath/$isofile $mntdisk/$isofile
 fi
 
 if [[ $? -eq 1 ]]; then
@@ -188,7 +185,7 @@ fi
 clear
 
 echo Copying to seedbox
-echo -e $remotepasswd | scp -r -P $remoteport $mntdisk/$foldername $remoteuser@$remoteip:$remotepath/
+scp -r -P $remoteport $mntdisk/$foldername $remoteuser@$remoteip:$remotepath/
 
 if [[ $? -eq 1 ]]; then
   echo Copying to seedbox failed

@@ -25,6 +25,20 @@ if [[ $installffmpeg == "y" || $installffmpeg == "Y" || $installffmpeg == "" ]];
   echo -e "Y" | sudo apt-get install ffmpeg
 fi
 
+read -e -p "Install unrar [Y/n]?" installunrar
+
+if [[ $installunrar == "y" || $installunrar == "Y" || $installunrar == "" ]]; then
+  clear
+  echo -e "Y" | sudo apt-get install unrar
+fi
+
+read -e -p "Install mktorrent [Y/n]?" installmktorrent
+
+if [[ $installmktorrent == "y" || $installmktorrent == "Y" || $installmktorrent == "" ]]; then
+  clear
+  echo -e "Y" | sudo apt-get install mktorrent
+fi
+
 read -e -p "Install FTP Server [Y/n] ?" installftp
 
 if [[ $installftp == "y" || $installftp == "Y" || $installftp == "" ]]; then
