@@ -22,5 +22,8 @@ az network nsg rule create --name PortFTP45 --nsg-name UbuntuVM-nsg --resource-g
 
 Remove-Item parameters1.json
 
+Write-Host Getting IP
+az vm show -d -g UbuntuRG -n UbuntuVM --query publicIps -o tsv
+
 #az group delete --name UbuntuRG
 #az group delete --name NetworkWatcherRG
