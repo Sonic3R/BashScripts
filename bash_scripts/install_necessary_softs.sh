@@ -5,10 +5,17 @@ read -e -p "Install .NET Core runtime [Y/n]?" installnetcore
 
 if [[ $installnetcore == "y" || $installnetcore == "Y" || $installnetcore == "" ]]; then
   clear
-  echo "Installing .NET Core runtime"
+  . /etc/os-release
+  ubuntuos=$VERSION_ID
+
+  if [[ $ubuntuos == "10" ]];then
+    ubuntuos=19.10
+  fi
+
+  echo "Installing .NET Core runtime: $ubuntuos"
   package="aspnetcore-runtime-3.1"
 
-  sudo wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  sudo wget https://packages.microsoft.com/config/ubuntu/$ubuntuos/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
   sudo dpkg -i packages-microsoft-prod.deb
 
   sudo add-apt-repository universe
