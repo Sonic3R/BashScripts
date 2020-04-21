@@ -127,3 +127,8 @@ if [[ $bdinfoscript == "y" || $bdinfoscript == "Y" || $bdinfoscript == "" ]];the
 
   sudo wget https://raw.githubusercontent.com/Sonic3R/Scripts/master/bash_scripts/bdscript_with_remote.sh -O $bdinfolocation/bdscript.sh
 fi
+
+read -e -p "Install seedbox [Y/n] ?" installseedbox
+if [[ $installseedbox == "y" || $installseedbox == "Y" || $installseedbox == "" ]];then
+   sudo bash <(wget -O- -q https://raw.githubusercontent.com/liaralabs/swizzin/master/setup.sh)
+fi
