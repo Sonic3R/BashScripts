@@ -132,3 +132,27 @@ read -e -p "Install seedbox [Y/n] ?" installseedbox
 if [[ $installseedbox == "y" || $installseedbox == "Y" || $installseedbox == "" ]];then
    sudo bash <(wget -O- -q https://raw.githubusercontent.com/liaralabs/swizzin/master/setup.sh)
 fi
+
+read -e -p "Install qbitorrent [Y/n] ?" installqbit
+if [[ $installseedbox == "y" || $installseedbox == "Y" || $installseedbox == "" ]];then
+   sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable
+   echo "Y" | sudo apt install qbittorrent-nox
+
+  sudo adduser --system --group qbittorrent-nox
+  sudo adduser qbittorrent-nox qbittorrent-nox
+
+  sudo cp /etc/systemd/system/qbittorrent-nox.service /etc/systemd/system/qbittorrent-nox.service.backup
+  sudo wget https://raw.githubusercontent.com/Sonic3R/Scripts/master/bash_scripts/qbit.service -O /home/qbit.service
+
+  sudo cp /home/qbit.service /etc/systemd/system/qbittorrent-nox.service
+  sudo systemctl start qbittorrent-nox
+  sudo systemctl daemon-reload
+  sudo systemctl enable qbittorrent-nox
+
+  if [[ ! -d "/home/qbit" ]]; then
+    mkdir /home/qbit
+    sudo setfacl -R -m "u:qbittorrent-nox:rwx" /home/qbit
+  fi
+
+  echo "url is :8088"
+fi

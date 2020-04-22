@@ -5,7 +5,7 @@ After=network.target
 [Service]
 #Do not change to "simple"
 Type=forking
-User=Sonic3R
+User=qbittorrent-nox
 Group=qbittorrent-nox
 UMask=007
 ExecStart=/usr/bin/qbittorrent-nox -d --webui-port=8088
