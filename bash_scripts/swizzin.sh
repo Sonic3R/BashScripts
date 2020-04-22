@@ -31,8 +31,8 @@ fi
 
 _os() {
   if [ ! -d /install ]; then mkdir /install ; fi
-  if [ ! -d /root/logs ]; then mkdir /root/logs ; fi
-  export log=/root/logs/install.log
+  if [ ! -d /home/rutorrent/logs ]; then mkdir /home/rutorrent/logs ; fi
+  export log=/home/rutorrent/logs/install.log
   echo "Checking OS version and release ... "
   apt-get -y -qq update >> ${log} 2>&1
   apt-get -y -qq install lsb-release >> ${log} 2>&1
@@ -137,7 +137,7 @@ function _adduser() {
       fi
     fi
   done
-  echo "$user:$pass" > /root/.master.info
+  echo "$user:$pass" > /home/rutorrent/.master.info
   if [[ -d /home/rutorrent/"$user" ]]; then
     echo "User directory already exists ... "
     #_skel
@@ -176,9 +176,9 @@ function _choices() {
       packages+=("$i" '""')
     fi
   done
-  whiptail --title "Install Software" --checklist --noitem --separate-output "Choose your clients and core features." 15 26 7 "${packages[@]}" 2>/root/results; exitstatus=$?; if [ "$exitstatus" = 1 ]; then exit 0; fi
-  #readarray packages < /root/results
-  results=/root/results
+  whiptail --title "Install Software" --checklist --noitem --separate-output "Choose your clients and core features." 15 26 7 "${packages[@]}" 2>/home/rutorrent/results; exitstatus=$?; if [ "$exitstatus" = 1 ]; then exit 0; fi
+  #readarray packages < /home/rutorrent/results
+  results=/home/rutorrent/results
 
   if grep -q nginx "$results"; then
     if [[ -n $(pidof apache2) ]]; then
@@ -197,13 +197,13 @@ function _choices() {
         guis+=("$i" '""')
       fi
     done
-    whiptail --title "rTorrent GUI" --checklist --noitem --separate-output "Optional: Select a GUI for rtorrent" 15 26 7 "${guis[@]}" 2>/root/guis; exitstatus=$?; if [ "$exitstatus" = 1 ]; then exit 0; fi
-    readarray guis < /root/guis
+    whiptail --title "rTorrent GUI" --checklist --noitem --separate-output "Optional: Select a GUI for rtorrent" 15 26 7 "${guis[@]}" 2>/home/rutorrent/guis; exitstatus=$?; if [ "$exitstatus" = 1 ]; then exit 0; fi
+    readarray guis < /home/rutorrent/guis
     for g in "${guis[@]}"; do
       g=$(echo $g)
-      sed -i "/rtorrent/a $g" /root/results
+      sed -i "/rtorrent/a $g" /home/rutorrent/results
     done
-    rm -f /root/guis
+    rm -f /home/rutorrent/guis
     . /etc/swizzin/sources/functions/rtorrent
     whiptail_rtorrent
   fi
@@ -214,10 +214,10 @@ function _choices() {
   fi
   if [[ $(grep -s rutorrent "$gui") ]] && [[ ! $(grep -s nginx "$results") ]]; then
       if (whiptail --title "nginx conflict" --yesno --yes-button "Install nginx" --no-button "Remove ruTorrent" "WARNING: The installer has detected that ruTorrent is to be installed without nginx. To continue, the installer must either install nginx or remove ruTorrent from the packages to be installed." 8 78); then
-        sed -i '1s/^/nginx\n/' /root/results
+        sed -i '1s/^/nginx\n/' /home/rutorrent/results
         touch /tmp/.nginx.lock
       else
-        sed -i '/rutorrent/d' /root/results
+        sed -i '/rutorrent/d' /home/rutorrent/results
       fi
   fi
 
@@ -233,28 +233,28 @@ function _choices() {
       extras+=("$i" '""')
     fi
   done
-  whiptail --title "Install Software" --checklist --noitem --separate-output "Make some more choices ^.^ Or don't. idgaf" 15 26 7 "${extras[@]}" 2>/root/results2; exitstatus=$?; if [ "$exitstatus" = 1 ]; then exit 0; fi
-  results2=/root/results2
+  whiptail --title "Install Software" --checklist --noitem --separate-output "Make some more choices ^.^ Or don't. idgaf" 15 26 7 "${extras[@]}" 2>/home/rutorrent/results2; exitstatus=$?; if [ "$exitstatus" = 1 ]; then exit 0; fi
+  results2=/home/rutorrent/results2
 }
 
 function _install() {
   touch /tmp/.install.lock
   begin=$(date +"%s")
-  readarray result < /root/results
+  readarray result < /home/rutorrent/results
   for i in "${result[@]}"; do
     result=$(echo $i)
     echo -e "Installing ${result}"
     bash /usr/local/bin/swizzin/install/${result}.sh
     rm /tmp/.$result.lock
   done
-  rm /root/results
-  readarray result < /root/results2
+  rm /home/rutorrent/results
+  readarray result < /home/rutorrent/results2
   for i in "${result[@]}"; do
     result=$(echo $i)
     echo -e "Installing ${result}"
     bash /usr/local/bin/swizzin/install/${result}.sh
   done
-  rm /root/results2
+  rm /home/rutorrent/results2
   rm /tmp/.install.lock
   termin=$(date +"%s")
   difftimelps=$((termin-begin))
@@ -263,7 +263,7 @@ function _install() {
 
 function _post {
   ip=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
-  echo "export PATH=\$PATH:/usr/local/bin/swizzin" >> /root/.bashrc
+  echo "export PATH=\$PATH:/usr/local/bin/swizzin" >> /home/rutorrent/.bashrc
   #echo "export PATH=\$PATH:/usr/local/bin/swizzin" >> /home/rutorrent/$user/.bashrc
   #chown ${user}: /home/rutorrent/$user/.profile
   echo "Defaults    secure_path = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/swizzin" > /etc/sudoers.d/secure_path
@@ -283,7 +283,7 @@ function _post {
     echo "Your deluge web port is$(grep port /home/rutorrent/${user}/.config/deluge/web.conf | cut -d: -f2 | cut -d"," -f1)"
     echo ""
   fi
-  echo -e "\e[1m\e[31mPlease note, certain functions may not be fully functional until your server is rebooted or you log out and back in. However you may issue the command 'source /root/.bashrc' to begin using box and related functions now\e[0m"
+  echo -e "\e[1m\e[31mPlease note, certain functions may not be fully functional until your server is rebooted or you log out and back in. However you may issue the command 'source /home/rutorrent/.bashrc' to begin using box and related functions now\e[0m"
 }
 
 _os
