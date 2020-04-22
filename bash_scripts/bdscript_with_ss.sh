@@ -20,7 +20,7 @@ if [[ $outputlocation == "" ]]; then
   exit 1
 fi
 
-foldername=basename $blurayfolder
+foldername=$(basename $blurayfolder)
 dotnet $bdinfofolder/BDInfo.dll -p $blurayfolder -r $outputlocation -o "${foldername}.txt" -g -b -a -l -y -k -m
 
 echo "Number of screens"
