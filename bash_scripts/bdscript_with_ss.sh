@@ -13,11 +13,11 @@ if [[ $blurayfolder == "" ]]; then
   exit 1
 fi
 
-echo "Location to save results and screens"
+echo "Location to save results and screens (/home/ftpuser)"
 read outputlocation
 
 if [[ $outputlocation == "" ]]; then
-  exit 1
+  outputlocation="/home/ftpuser"
 fi
 
 foldername=$(basename $blurayfolder)
