@@ -138,17 +138,17 @@ function _adduser() {
     fi
   done
   echo "$user:$pass" > /root/.master.info
-  if [[ -d /home/"$user" ]]; then
+  if [[ -d /home/rutorrent/"$user" ]]; then
     echo "User directory already exists ... "
     #_skel
     #cd /etc/skel
-    #cp -R * /home/$user/
+    #cp -R * /home/rutorrent/$user/
     echo "Changing password to new password"
     chpasswd<<<"${user}:${pass}"
     htpasswd -b -c /etc/htpasswd $user $pass
     mkdir -p /etc/htpasswd.d/
     htpasswd -b -c /etc/htpasswd.d/htpasswd.${user} $user $pass
-    chown -R $user:$user /home/${user}
+    chown -R $user:$user /home/rutorrent/${user}
   else
     echo -e "Creating new user \e[1;95m$user\e[0m ... "
     #_skel
@@ -158,7 +158,7 @@ function _adduser() {
     mkdir -p /etc/htpasswd.d/
     htpasswd -b -c /etc/htpasswd.d/htpasswd.${user} $user $pass
   fi
-  chmod 750 /home/${user}
+  chmod 750 /home/rutorrent/${user}
   if grep ${user} /etc/sudoers.d/swizzin >/dev/null 2>&1 ; then echo "No sudoers modification made ... " ; else	echo "${user}	ALL=(ALL:ALL) ALL" >> /etc/sudoers.d/swizzin ; fi
   echo "D /var/run/${user} 0750 ${user} ${user} -" >> /etc/tmpfiles.d/${user}.conf
   systemd-tmpfiles /etc/tmpfiles.d/${user}.conf --create
@@ -264,8 +264,8 @@ function _install() {
 function _post {
   ip=$(ip route get 1 | sed -n 's/^.*src \([0-9.]*\) .*$/\1/p')
   echo "export PATH=\$PATH:/usr/local/bin/swizzin" >> /root/.bashrc
-  #echo "export PATH=\$PATH:/usr/local/bin/swizzin" >> /home/$user/.bashrc
-  #chown ${user}: /home/$user/.profile
+  #echo "export PATH=\$PATH:/usr/local/bin/swizzin" >> /home/rutorrent/$user/.bashrc
+  #chown ${user}: /home/rutorrent/$user/.profile
   echo "Defaults    secure_path = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin/swizzin" > /etc/sudoers.d/secure_path
   if [[ $distribution = "Ubuntu" ]]; then
     echo 'Defaults  env_keep -="HOME"' > /etc/sudoers.d/env_keep
@@ -279,8 +279,8 @@ function _post {
     echo ""
   fi
   if [[ -f /install/.deluge.lock ]]; then
-    echo "Your deluge daemon port is$(grep daemon_port /home/${user}/.config/deluge/core.conf | cut -d: -f2 | cut -d"," -f1)"
-    echo "Your deluge web port is$(grep port /home/${user}/.config/deluge/web.conf | cut -d: -f2 | cut -d"," -f1)"
+    echo "Your deluge daemon port is$(grep daemon_port /home/rutorrent/${user}/.config/deluge/core.conf | cut -d: -f2 | cut -d"," -f1)"
+    echo "Your deluge web port is$(grep port /home/rutorrent/${user}/.config/deluge/web.conf | cut -d: -f2 | cut -d"," -f1)"
     echo ""
   fi
   echo -e "\e[1m\e[31mPlease note, certain functions may not be fully functional until your server is rebooted or you log out and back in. However you may issue the command 'source /root/.bashrc' to begin using box and related functions now\e[0m"
