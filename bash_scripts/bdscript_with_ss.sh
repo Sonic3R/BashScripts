@@ -23,12 +23,12 @@ fi
 foldername=$(basename $blurayfolder)
 dotnet $bdinfofolder/BDInfo.dll -p $blurayfolder -r $outputlocation -o "${foldername}.txt" -g -b -a -l -y -k -m
 
-echo "Number of screens"
+echo "Number of screens (default: 3)"
 read ssnum
 
 screenshotnum=3
 
-if [[ $ssnum -eq 0 ]]; then
+if [[ $ssnum -eq 0 || $ssnum == "" ]]; then
   screenshotnum=3
 else
   screenshotnum=$ssnum
