@@ -16,8 +16,8 @@ if [[ $bdinfofolder == "" ]]; then
 #  fi
 fi
 
-echo "Location of bluray folder"
-read blurayfolder
+#echo "Location of bluray folder"
+#read blurayfolder
 
 if [[ $blurayfolder == "" ]]; then
   exit 1
