@@ -4,45 +4,24 @@ outputlocation=${args[1]}
 screenshotnum=${args[2]}
 bdinfofolder=${args[3]}
 
-clear
-
 if [[ $bdinfofolder == "" ]]; then
   bdinfofolder="/home/ftpuser/bdinfo"
-#  echo "Location of bdscript (/home/ftpuser/bdinfo)"
-#  read bdinfofolder
-#
-#  if [[ $bdinfofolder == "" ]]; then
-#    bdinfofolder="/home/ftpuser/bdinfo"
-#  fi
 fi
-
-#echo "Location of bluray folder"
-#read blurayfolder
 
 if [[ $blurayfolder == "" ]]; then
   exit 1
 fi
 
-#echo "Location to save results and screens (/home/ftpuser)"
-#read outputlocation
-#
 if [[ $outputlocation == "" ]]; then
   outputlocation="/home/ftpuser"
 fi
 
-
+echo $blurayfolder
 foldername=$(basename $blurayfolder)
 dotnet $bdinfofolder/BDInfo.dll -p $blurayfolder -r $outputlocation -o "${foldername}.txt" -g -b -a -l -y -k -m
 
-#echo "Number of screens (default: 3)"
-#read ssnum
-#
-#screenshotnum=3
-
 if [[ $ssnum -eq 0 || $ssnum == "" ]]; then
   screenshotnum=6
-#else
-#  screenshotnum=$ssnum
 fi
 
 pkgs='ffmpeg'

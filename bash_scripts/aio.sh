@@ -1,13 +1,18 @@
-for blurayfolder in "$@"
+for blurayfolderitem in "$@"
 do
   clear
     
-  iso=$(find $blurayfolder -name *.iso)
+  echo Processing $blurayfolderitem
+  
+  iso=$(find $blurayfolderitem -name *.iso)
+  
+  echo $iso
+
   if [[ $iso != "" ]]; then
     echo $iso
-    dotnet /home/ftpuser/bdextract/BDExtractor.dll -p $blurayfolder/$iso -o $blurayfolder
-    rm $blurayfolder/$iso
+    dotnet /home/ftpuser/bdextract/BDExtractor.dll -p $blurayfolderitem/$iso -o $blurayfolderitem
+    rm $blurayfolderitem/$iso
   fi
 
-  bash /home/bdscript_with_ss.sh $blurayfolder
+  bash /home/bdscript_with_ss.sh $blurayfolderitem
 done
