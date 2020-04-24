@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $@ >> /home/test.txt
+echo "blablabla" >> /home/test.txt
