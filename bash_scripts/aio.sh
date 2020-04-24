@@ -1,4 +1,3 @@
-cd /home
 for blurayfolder in "$@"
 do
   clear
@@ -6,9 +5,9 @@ do
   iso=$(find $blurayfolder -name *.iso)
   if [[ $iso != "" ]]; then
     echo $iso
-    dotnet ftpuser/bdextract/BDExtractor.dll -p $blurayfolder/$iso -o $blurayfolder
+    dotnet /home/ftpuser/bdextract/BDExtractor.dll -p $blurayfolder/$iso -o $blurayfolder
     rm $blurayfolder/$iso
   fi
 
-  bash bdscript_with_ss.sh $blurayfolder
+  bash /home/bdscript_with_ss.sh $blurayfolder
 done
