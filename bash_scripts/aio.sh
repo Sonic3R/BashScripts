@@ -11,4 +11,4 @@ do
   fi
 
   bash bdscript_with_ss.sh $blurayfolder
-done 
+done
