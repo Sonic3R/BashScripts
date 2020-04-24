@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "blablabla" >> /home/test.txt
+echo "blablabla" >> /home/sonic3r/torrent/rtorrent/test.txt
