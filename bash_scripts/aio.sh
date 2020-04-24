@@ -6,7 +6,7 @@ do
   iso=$(find $blurayfolder -name *.iso)
   if [[ $iso != "" ]]; then
     echo $iso
-    dotnet ftpuser/bdextract/BDExtractor.dll -p $blurayfolder/$iso
+    dotnet ftpuser/bdextract/BDExtractor.dll -p $blurayfolder/$iso -o $blurayfolder
     rm $blurayfolder/$iso
   fi
 
