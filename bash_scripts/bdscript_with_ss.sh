@@ -1,3 +1,4 @@
+#!/bin/bash
 args=("$@")
 blurayfolder=${args[0]}
 outputlocation=${args[1]}

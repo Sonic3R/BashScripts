@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Your current user name"
 read currentuser
 
