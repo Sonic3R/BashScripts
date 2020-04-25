@@ -4,7 +4,7 @@ do
   
   iso=$(find $blurayfolderitem -name *.iso)
 
-  if [[ $iso == "" ]];then
+  if [[ $iso == "" ]]; then
     iso=$(find $blurayfolderitem -name *.ISO)
   fi
   
