@@ -3,6 +3,10 @@ do
   echo Processing $blurayfolderitem
   
   iso=$(find $blurayfolderitem -name *.iso)
+
+  if [[ $iso == "" ]];then
+    iso=$(find $blurayfolderitem -name *.ISO)
+  fi
   
   if [[ $iso != "" ]]; then
     echo $iso
