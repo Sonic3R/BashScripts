@@ -12,7 +12,7 @@ do
     echo $iso
     dotnet /home/ftpuser/bdextract/BDExtractor.dll -p $iso -o $blurayfolderitem
     rm $iso
-
-    bash /home/bdscript_with_ss.sh $blurayfolderitem
   fi  
+
+  bash /home/bdscript_with_ss.sh $blurayfolderitem
 done
