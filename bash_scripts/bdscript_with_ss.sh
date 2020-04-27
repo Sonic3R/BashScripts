@@ -19,7 +19,7 @@ fi
 
 echo $blurayfolder
 foldername=$(basename $blurayfolder)
-dotnet $bdinfofolder/BDInfo.dll -p $blurayfolder -r $outputlocation -o "${foldername}.txt" -g -b -a -l -y -k -m
+dotnet $bdinfofolder/BDInfo.dll -p $blurayfolder -r $outputlocation -o "${foldername}.txt" -b -a -l -y -k -m
 
 if [[ $ssnum -eq 0 || $ssnum == "" ]]; then
   screenshotnum=6
