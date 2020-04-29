@@ -17,13 +17,14 @@ do
 
       bash /home/bdscript_with_ss.sh $blurayfolderitem
     else      
-      mkdir /media/iso
-      mount -o loop $iso /media/iso
+      foldername=$(basename $blurayfolderitem)
+      mkdir /media/$foldername
+      mount -o loop $iso /media/$foldername
   
-      bash /home/bdscript_with_ss.sh /media/iso
+      bash /home/bdscript_with_ss.sh /media/$foldername
 
-      umount /media/iso
-      rmdir /media/iso
+      umount /media/$foldername
+      rmdir /media/$foldername
     fi
   else
     bash /home/bdscript_with_ss.sh $blurayfolderitem
