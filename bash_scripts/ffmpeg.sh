@@ -1,14 +1,18 @@
+#!/bin/bash
+args=("$@")
+
+blurayfolder=${args[0]}
+screenshotnum=${args[1]}
+outputlocation=${args[2]}
+
 pkgs='ffmpeg'
 if ! dpkg -s $pkgs >/dev/null 2>&1; then
   echo $pkgs not installed
   exit 1
 fi
 
-blurayfolder=${args[0]}
-screenshotnum=${args[1]}
-outputlocation=${args[2]}
-
 if [[ "$blurayfolder" == "" ]]; then
+  echo No bluray folder specified
   exit 1
 fi
 
@@ -28,11 +32,11 @@ if ! dpkg -s $pkgs >/dev/null 2>&1; then
   exit 1
 fi
 
-bigfile="$(find \"${blurayfolder}\"/ -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')"
+bigfile=$(find "${blurayfolder}/" -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
 
 echo Movie found: "$bigfile"
 
-if[[ "$bigfile" == "" ]]; then
+if [[ $bigfile == "" ]]; then
   echo "File not found"
   exit 1
 fi

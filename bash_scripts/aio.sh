@@ -1,3 +1,4 @@
+#!/bin/bash
 for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
