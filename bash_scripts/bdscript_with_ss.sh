@@ -1,9 +1,9 @@
 #!/bin/bash
 args=("$@")
-blurayfolder=${args[0]}
-outputlocation=${args[1]}
+blurayfolder="${args[0]}"
+outputlocation="${args[1]}"
 screenshotnum=${args[2]}
-bdinfofolder=${args[3]}
+bdinfofolder="${args[3]}"
 
 if [[ $bdinfofolder == "" ]]; then
   bdinfofolder="/home/ftpuser/bdinfo"
