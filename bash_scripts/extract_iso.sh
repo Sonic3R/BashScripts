@@ -11,7 +11,7 @@ do
   if [[ $iso != "" ]]; then 
     output=$(dirname "${iso}")
 
-    7z x "$iso" -o "$output/"
+    7z x "$iso" -oc:"$output/"
 
     if [[ $? -eq 0 ]]; then
       rm $iso
