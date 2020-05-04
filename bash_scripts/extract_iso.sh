@@ -9,10 +9,12 @@ do
   fi
 
   if [[ $iso != "" ]]; then 
-    output=$(dirname "${fld}")
+    output=$(dirname "${iso}")
 
     7z x "$iso" -o "$output/"
 
-    rm $iso
+    if [[ $? -eq 0 ]]; then
+      rm $iso
+    fi    
   fi
 done
