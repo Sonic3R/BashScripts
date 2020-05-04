@@ -5,7 +5,11 @@ createtorrentdata() {
 }
 
 createbdinfo() {
-  bash /home/bdscript_with_ss.sh "$1"
+  bash /home/bdscript.sh "$1"
+}
+
+createscreens() {
+  bash /home/ffmpeg.sh "$1" 6
 }
 
 for blurayfolderitem in "$@"
@@ -69,24 +73,23 @@ do
       fi
 
       createbdinfo "$location"
-
+      createscreens "$location"
       createtorrentdata "$location" $foldername
-      #dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$location" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$foldername.torrent"
     else      
       mkdir /media/$foldername
       mount -o loop "$iso" /media/$foldername
   
       createbdinfo /media/$foldername
+      createscreens /media/$foldername
 
       umount /media/$foldername
       rmdir /media/$foldername
 
       createtorrentdata "$blurayfolderitem" $foldername
-      #dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$blurayfolderitem" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$foldername.torrent"
     fi
   else
     createbdinfo "$blurayfolderitem"
+    createscreens "$blurayfolderitem"
     createtorrentdata "$blurayfolderitem" $foldername
-    #dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$blurayfolderitem" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$foldername.torrent"
   fi
 done
