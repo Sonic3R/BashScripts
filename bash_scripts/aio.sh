@@ -16,6 +16,21 @@ do
   if [[ "$iso" != "" ]]; then
     echo "$iso"
 
+    mts=$(find "$blurayfolderitem" -name *.m2ts)
+    if [[ $mts != "" ]]; then
+      rm $mts
+    fi
+
+    nfo=$(find "$blurayfolderitem" -name *.nfo)
+    if [[ $nfo != "" ]]; then
+      rm $nfo
+    fi
+
+    jpg=$(find "$blurayfolderitem" -name *.jpg)
+    if [[ $jpg != "" ]]; then
+      rm $jpg
+    fi
+
     if [[ "$iso" != *"3D"* ]];then
       replacement=${blurayfolderitem///chd/}
       if [[ $replacement == $blurayfolderitem ]]; then
