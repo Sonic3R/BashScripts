@@ -18,8 +18,8 @@ do
     iso=$(find "$blurayfolderitem" -name *.ISO)
   fi
   
-  location = $blurayfolderitem
-  removeiso = 1
+  location=$blurayfolderitem
+  removeiso=1
   foldername=$(basename "$blurayfolderitem")
 
   if [[ "$iso" != "" ]]; then
@@ -49,16 +49,16 @@ do
           replacement=${blurayfolderitem///hdchina/}
 
           if [[ $replacement != $blurayfolderitem ]]; then
-            location = $replacement
-            removeiso = 0
+            location=$replacement
+            removeiso=0
           fi
         else
-          location = $replacement
-          removeiso = 0
+          location=$replacement
+          removeiso=0
         fi
       else
-        location = $replacement
-        removeiso = 0
+        location=$replacement
+        removeiso=0
       fi
 
       dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$iso" -o "$location"
