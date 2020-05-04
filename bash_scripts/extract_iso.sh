@@ -2,19 +2,22 @@
 
 for fld in "$@"
 do
-  iso=$(find "$fld" -name *.iso)
+  isofiles=$(find "$fld" -name *.iso)
 
-  if [[ $iso == "" ]]; then
-    iso=$(find "$fld" -name *.ISO)
+  if [[ $isofiles == "" ]]; then
+    isofiles=$(find "$fld" -name *.ISO)
   fi
 
-  if [[ $iso != "" ]]; then 
-    output=$(dirname "${iso}")
+  if [[ $isofiles != "" ]]; then 
+    for iso in $isofiles
+    do
+      output=$(dirname "${iso}")
 
-    7z x "$iso" -oc:"$output/"
+      7z x "$iso" -oc:"$output/"
 
-    if [[ $? -eq 0 ]]; then
-      rm $iso
-    fi    
+      if [[ $? -eq 0 ]]; then
+        rm $iso
+      fi
+    done     
   fi
 done
