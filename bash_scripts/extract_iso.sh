@@ -18,6 +18,8 @@ do
       if [[ $? -eq 0 ]]; then
         rm $iso
       fi
+
+      chmod -R 0755 "$output"
     done     
   fi
 done
