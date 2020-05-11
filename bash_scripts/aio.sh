@@ -1,7 +1,9 @@
 #!/bin/bash
 
 createtorrentdata() {
-  dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$1" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$2.torrent"
+  name=$2
+  replacement=${name// /.}
+  dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$1" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$replacement.torrent"
 }
 
 createbdinfo() {
