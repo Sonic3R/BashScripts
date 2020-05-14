@@ -8,7 +8,7 @@ createtorrentdata() {
   if [[ $replacement =~ .*S[0-9]+\.?D[0-9]+.* ]]; then
       echo "Won't create torrent for $replacement"
   else
-      bash create_torrent.sh "$1" "/home/ftpuser/$replacement.torrent"
+      bash /home/create_torrent.sh "$1" "/home/ftpuser/$replacement.torrent"
       #dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$1" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$replacement.torrent"
   fi  
 }
@@ -98,9 +98,7 @@ do
     fi
   else
     createbdinfo "$blurayfolderitem"
-    createscreens "$blurayfolderitem"
-
-    
+    createscreens "$blurayfolderitem"    
     createtorrentdata "$blurayfolderitem" $foldername
   fi
 done
