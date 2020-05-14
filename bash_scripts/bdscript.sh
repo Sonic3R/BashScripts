@@ -4,15 +4,15 @@ blurayfolder=${args[0]}
 outputlocation=${args[1]}
 bdinfofolder=${args[2]}
 
-if [[ "$bdinfofolder" == "" ]]; then
+if [[ $bdinfofolder == "" ]]; then
   bdinfofolder="/home/ftpuser/bdinfo"
 fi
 
-if [[ "$blurayfolder" == "" ]]; then
+if [[ $blurayfolder == "" ]]; then
   exit 1
 fi
 
-if [[ "$outputlocation" == "" ]]; then
+if [[ $outputlocation == "" ]]; then
   outputlocation="/home/ftpuser"
 fi
 
