@@ -18,7 +18,7 @@ createbdinfo() {
 }
 
 createscreens() {
-  bash /home/ffmpeg.sh "$1" 6
+  bash /home/ffmpeg.sh "$1" 12
 }
 
 for blurayfolderitem in "$@"
