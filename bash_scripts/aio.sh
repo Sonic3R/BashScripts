@@ -3,7 +3,13 @@
 createtorrentdata() {
   name=$2
   replacement=${name// /.}
-  dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$1" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$replacement.torrent"
+
+  # if S01D01 tv disk, then do not create torrent file, is useless
+  if [[ $replacement =~ .*S[0-9]+\.?D[0-9]+.* ]]; then
+      echo "Won't create torrent for $replacement"
+  else
+      dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$1" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$replacement.torrent"
+  fi  
 }
 
 createbdinfo() {
@@ -92,6 +98,8 @@ do
   else
     createbdinfo "$blurayfolderitem"
     createscreens "$blurayfolderitem"
+
+    
     createtorrentdata "$blurayfolderitem" $foldername
   fi
 done
