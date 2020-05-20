@@ -19,10 +19,10 @@ do
         rm $rar
       fi
 
-      chmod -R 0755 "$output"
-
       rm "$output/*.r*"
       rm "$output/*.diz"
+
+      chmod -R 0755 "$output"
     done
   fi
 done
