@@ -20,7 +20,7 @@ do
       fi
 
       rfiles=$(find "$fld" -name *.r*)
-      if [[ $rfiles != ""  ]]; then
+      if [[ $rfiles != "" ]]; then
         for rfile in $rfiles
         do
           rm $rfile
@@ -28,7 +28,7 @@ do
       fi
 
       dizfile=$(find "$fld" -name *.diz)
-      if [[ $dizfile != ""  ]]; then
+      if [[ $dizfile != "" ]]; then
         rm $dizfile
       fi
 
