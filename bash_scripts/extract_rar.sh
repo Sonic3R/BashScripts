@@ -19,8 +19,18 @@ do
         rm $rar
       fi
 
-      rm "$output/*.r*"
-      rm "$output/*.diz"
+      rfiles=$(find "$fld" -name *.r*)
+      if [[ $rfiles != ""  ]]; then
+        for rfile in $rfiles
+        do
+          rm $rfile
+        done
+      fi
+
+      dizfile=$(find "$fld" -name *.diz)
+      if [[ $dizfile != ""  ]]; then
+        rm $dizfile
+      fi
 
       chmod -R 0755 "$output"
     done
