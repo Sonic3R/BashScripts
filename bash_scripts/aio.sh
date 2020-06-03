@@ -30,6 +30,14 @@ do
   if [[ "$iso" == "" ]]; then
     iso=$(find "$blurayfolderitem" -name *.ISO)
   fi
+
+  if [[ "$iso" == "" ]]; then
+    iso=$(find "$blurayfolderitem" -name *.img)
+  fi
+
+  if [[ "$iso" == "" ]]; then
+    iso=$(find "$blurayfolderitem" -name *.IMG)
+  fi
   
   location=$blurayfolderitem
   removeiso=1
