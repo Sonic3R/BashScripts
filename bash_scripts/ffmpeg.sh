@@ -34,17 +34,7 @@ fi
 
 bigfile=$(find "${blurayfolder}/" -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
 
-secondmovieseconds=0
-anotherfile=''
-
-if [[ $blurayfolder =~ .*3D.* ]]; then
-  bigfiles=$(find "${blurayfolder}/" -printf '%s %p\n'| sort -nr | head -2 | sed 's/^[^ ]* //')
-  anotherfile=$bigfiles[1]
-  secondmovieseconds=$(ffmpeg -i "$anotherfile" 2>&1 | grep "Duration"| cut -d ' ' -f 4 | sed s/,// | sed 's@\..*@@g' | awk '{ split($1, A, ":"); split(A[3], B, "."); print 3600*A[1] + 60*A[2] + B[1] }')
-fi
-
 echo Movie found: "$bigfile"
-echo Movie found: "$anotherfile"
 
 if [[ $bigfile == "" ]]; then
   echo "File not found"
@@ -53,7 +43,10 @@ fi
 
 movieseconds=$(ffmpeg -i "$bigfile" 2>&1 | grep "Duration"| cut -d ' ' -f 4 | sed s/,// | sed 's@\..*@@g' | awk '{ split($1, A, ":"); split(A[3], B, "."); print 3600*A[1] + 60*A[2] + B[1] }')
 period=$((movieseconds/screenshotnum))
-period=$(( $period - 100 ))
+
+if [[ $period > 300 ]];then
+  period=$(( $period - 100 ))
+fi
 
 echo "Movie seconds: $movieseconds"
 echo "Ss num: $screenshotnum"
@@ -68,9 +61,3 @@ do
   ffmpeg -ss $seconds -t 1 -i "$bigfile" -vcodec png -vframes 1 "${outputlocation}/${foldername}_${i}.png"
   i=$(( $i + 1 ))
 done
-
-echo Movie found: "$bigfile"
-echo Movie found: "$anotherfile"
-
-echo "Movie seconds: $movieseconds"
-echo "Movie 2nd seconds: secondmovieseconds"
