@@ -6,11 +6,22 @@ createtorrentdata() {
 
   # if S01D01 tv disk, then do not create torrent file, is useless
   if [[ $replacement =~ .*S[0-9]+\.?D[0-9]+.* ]]; then
-      echo "Won't create torrent for $replacement"
+    echo "Won't create torrent for $replacement"
   else
-      bash /home/create_torrent.sh "$1" "/home/ftpuser/$replacement.torrent"
-      #dotnet /home/ftpuser/torrentcreator/TorrentCreator.dll -f "$1" -t "https://filelist.io" -p -l 16 -s "/home/ftpuser/$replacement.torrent"
-  fi  
+    torrentfile="/home/ftpuser/$replacement.torrent"
+
+    # if contains DISC1, DISC2 etc then create torrent from main folder
+    if [[ $replacement =~ .*DISC[0-9]+.* ]]; then
+      newname=$(basename "$name")
+      replacement=${newname// /.}
+      torrentfile="/home/ftpuser/$replacement.torrent"
+    fi
+
+    if [[ ! -f $torrentfile ]]; then
+      echo "$torrentfile already exists. Skipping"
+      bash /home/create_torrent.sh "$1" $torrentfile
+    fi
+  fi
 }
 
 createbdinfo() {
@@ -42,9 +53,10 @@ do
   location=$blurayfolderitem
   removeiso=1
   foldername=$(basename "$blurayfolderitem")
+  imagefiles=$iso
 
-  if [[ "$iso" != "" ]]; then
-    echo "$iso"
+  if [[ "$imagefiles" != "" ]]; then
+    echo "$imagefiles"
 
     mts=$(find "$blurayfolderitem" -name *.m2ts)
     if [[ $mts != "" ]]; then
@@ -61,15 +73,21 @@ do
       rm $jpg
     fi
 
-    if [[ "$iso" != *"3D"* ]];then
-      replacement=${blurayfolderitem///chd/}
-      if [[ $replacement == $blurayfolderitem ]]; then
-        replacement=${blurayfolderitem///mteam/}
-
+    for imagefile in $imagefiles
+    do
+      if [[ "$imagefile" != *"3D"* ]];then
+        replacement=${blurayfolderitem///chd/}
         if [[ $replacement == $blurayfolderitem ]]; then
-          replacement=${blurayfolderitem///hdchina/}
+          replacement=${blurayfolderitem///mteam/}
 
-          if [[ $replacement != $blurayfolderitem ]]; then
+          if [[ $replacement == $blurayfolderitem ]]; then
+            replacement=${blurayfolderitem///hdchina/}
+
+            if [[ $replacement != $blurayfolderitem ]]; then
+              location=$replacement
+              removeiso=0
+            fi
+          else
             location=$replacement
             removeiso=0
           fi
@@ -77,33 +95,30 @@ do
           location=$replacement
           removeiso=0
         fi
-      else
-        location=$replacement
-        removeiso=0
-      fi
 
-      dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$iso" -o "$location"
+        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefile" -o "$location"
 
-      if [[ $removeiso == 1 ]]; then
-        echo Removing $iso
-        rm "$iso"
-      fi
+        if [[ $removeiso == 1 ]]; then
+          echo Removing $imagefile
+          rm "$imagefile"
+        fi
 
-      createbdinfo "$location"
-      createscreens "$location"
-      createtorrentdata "$location" $foldername
-    else      
-      mkdir /media/$foldername
-      mount -o loop "$iso" /media/$foldername
+        createbdinfo "$location"
+        createscreens "$location"
+        createtorrentdata "$location" $foldername
+      else      
+        mkdir /media/$foldername
+        mount -o loop "$imagefile" /media/$foldername
   
-      createbdinfo /media/$foldername
-      createscreens /media/$foldername
+        createbdinfo /media/$foldername
+        createscreens /media/$foldername
 
-      umount /media/$foldername
-      rmdir /media/$foldername
+        umount /media/$foldername
+        rmdir /media/$foldername
 
-      createtorrentdata "$blurayfolderitem" $foldername
-    fi
+        createtorrentdata "$blurayfolderitem" $foldername
+      fi
+    done
   else
     createbdinfo "$blurayfolderitem"
     createscreens "$blurayfolderitem"    
