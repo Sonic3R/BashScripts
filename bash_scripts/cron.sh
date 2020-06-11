@@ -52,7 +52,8 @@ getsubfolder(){
   if [[ $bdmvfound == true ]]; then
     return $current
   else
-    return getsubfolder "$1/$subfolders"
+    sub=basename($subfolders)
+    return getsubfolder "$1/$sub"
   fi
 }
 
