@@ -167,6 +167,11 @@ do
       mv $blurayfolder/* $blurayfolderitem
       rm -rf $blurayfolder
     fi
+    
+    mkv=$(find "$blurayfolderitem" -name *.mkv)
+    if [[ $mkv != "" ]]; then
+      continue
+    fi
 
     createbdinfo "$blurayfolderitem"
     createscreens "$blurayfolderitem"    
