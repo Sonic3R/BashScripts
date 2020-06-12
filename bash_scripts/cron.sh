@@ -44,7 +44,9 @@ getsubfolder(){
 
   for subfolder in $subfolders
   do
-    base=$(basename "$subfolder")
+    item="$current/$subfolder"
+    echo "Look for BD structure in $item"
+    base=$(basename "$item")
     if [[ $base == "BDMV" || $base == "bdmv" ]]; then
       bdmvfound=true
       break
@@ -70,25 +72,26 @@ folders=$(ls $foldertolookin)
 
 for blurayfolderitem in $folders
 do
-  echo Processing "$blurayfolderitem"
+  item="$foldertolookin/$blurayfolderitem"
+  echo Processing "$item"
   
-  iso=$(find "$blurayfolderitem" -name *.iso)
+  iso=$(find "$item" -name *.iso)
 
   if [[ "$iso" == "" ]]; then
-    iso=$(find "$blurayfolderitem" -name *.ISO)
+    iso=$(find "$item" -name *.ISO)
   fi
 
   if [[ "$iso" == "" ]]; then
-    iso=$(find "$blurayfolderitem" -name *.img)
+    iso=$(find "$item" -name *.img)
   fi
 
   if [[ "$iso" == "" ]]; then
-    iso=$(find "$blurayfolderitem" -name *.IMG)
+    iso=$(find "$item" -name *.IMG)
   fi
   
-  location=$blurayfolderitem
+  location="$item"
   removeiso=1
-  foldername=$(basename "$blurayfolderitem")
+  foldername=$(basename"$item")
   imagefiles=$iso
 
   if [[ "$imagefiles" != "" ]]; then
@@ -166,28 +169,28 @@ do
       fi
     done
   else
-    blurayfolder=$(getsubfolder "$blurayfolderitem")
+    blurayfolder=$(getsubfolder "$item")
     if [[ $blurayfolder == "" ]]; then
       continue
     fi
 
     echo "Bluray folder: $blurayfolder"
-    echo "Bluray folder item: $blurayfolderitem"
+    echo "Bluray folder item: $item"
 
-    if [[ $blurayfolder != $blurayfolderitem ]];then
-      mv $blurayfolder/* $blurayfolderitem
-      rm -rf $blurayfolder
+    if [[ $blurayfolder != $item ]];then
+      mv $blurayfolder/* "$item"
+      rm -rf "$blurayfolder"
     fi
     
-    mkv=$(find "$blurayfolderitem" -name *.mkv)
+    mkv=$(find "$item" -name *.mkv)
 
     if [[ $mkv != "" ]]; then
       echo "MKV, not bluray, will skip"
       continue
     fi
 
-    createbdinfo "$blurayfolderitem"
-    createscreens "$blurayfolderitem"    
-    createtorrentdata "$blurayfolderitem" $foldername
+    createbdinfo "$item"
+    createscreens "$item"    
+    createtorrentdata "$item" $foldername
   fi
 done
