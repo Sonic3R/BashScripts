@@ -101,12 +101,10 @@ do
   item="$foldertolookin/$blurayfolderitem"
   echo Processing "$item"
   
-  iso=$(getiso "$item")
-
   location="$item"
   removeiso=1
   foldername=$(basename "$item")
-  imagefiles=$iso
+  imagefiles=($(getiso "$item"))
 
   if [[ $imagefiles != "" ]]; then
     echo "$imagefiles"
@@ -136,9 +134,11 @@ do
       rm -rf $sample
     fi
 
-    for imagefile in $imagefiles
+    for (( i=0; i<${#imagefiles[@]}; i++ ))
+    #for imagefile in $imagefiles
     do
-      img="$imagefile"
+      img="${imagefiles[$i]}"
+      echo "$i: $img"
 
       if [[ $img != *"3D"* ]];then
         replacement=${item///chd/}
