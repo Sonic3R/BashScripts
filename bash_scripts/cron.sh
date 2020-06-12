@@ -63,9 +63,15 @@ getsubfolder(){
 }
 
 foldertolookin=$1
+movetoblurayfolder=$2
+blurayfolderpath="/home/sonic3r/torrents/rtorrent/bluray/"
 
 if [[ $foldertolookin == "" ]]; then
   foldertolookin="/home/sonic3r/nzbget/downloads/completed"
+fi
+
+if [[ $movetoblurayfolder == "" ]]; then
+  movetoblurayfolder=1
 fi
 
 folders=$(ls $foldertolookin)
@@ -192,5 +198,9 @@ do
     createbdinfo "$item"
     createscreens "$item"    
     createtorrentdata "$item" $foldername
+  fi
+
+  if [[ $movetoblurayfolder == 1 ]]; then
+    mv $item $blurayfolderpath
   fi
 done
