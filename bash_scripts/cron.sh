@@ -134,25 +134,15 @@ do
       rm -rf $sample
     fi
 
-    for (( i=0; i<${#imagefiles[@]}; i++ ))
-    #for imagefile in $imagefiles
-    do
-      img="${imagefiles[$i]}"
-      echo "$i: $img"
+    if [[ $imagefiles != *"3D"* ]];then
+      replacement=${item///chd/}
+      if [[ $replacement == $item ]]; then
+        replacement=${item///mteam/}
 
-      if [[ $img != *"3D"* ]];then
-        replacement=${item///chd/}
         if [[ $replacement == $item ]]; then
-          replacement=${item///mteam/}
+          replacement=${item///hdchina/}
 
-          if [[ $replacement == $item ]]; then
-            replacement=${item///hdchina/}
-
-            if [[ $replacement != $item ]]; then
-              location=$replacement
-              removeiso=0
-            fi
-          else
+          if [[ $replacement != $item ]]; then
             location=$replacement
             removeiso=0
           fi
@@ -160,31 +150,34 @@ do
           location=$replacement
           removeiso=0
         fi
-
-        echo "Extracting $img"
-        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$img" -o "$location"
-
-        if [[ $removeiso == 1 ]]; then
-          echo "Removing $img"
-          rm $img
-        fi
-
-        createbdinfo "$location"
-        createscreens "$location"
-        createtorrentdata "$location" $foldername
-      else      
-        mkdir /media/$foldername
-        mount -o loop "$img" /media/$foldername
-  
-        createbdinfo /media/$foldername
-        createscreens /media/$foldername
-
-        umount /media/$foldername
-        rmdir /media/$foldername
-
-        createtorrentdata "$item" $foldername
+      else
+        location=$replacement
+        removeiso=0
       fi
-    done
+
+      echo "Extracting $imagefiles"
+      dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefiles" -o "$location"
+
+      if [[ $removeiso == 1 ]]; then
+        echo "Removing $imagefiles"
+        rm $imagefiles
+      fi
+
+      createbdinfo "$location"
+      createscreens "$location"
+      createtorrentdata "$location" $foldername
+    else      
+      mkdir /media/$foldername
+      mount -o loop "$imagefiles" /media/$foldername
+  
+      createbdinfo /media/$foldername
+      createscreens /media/$foldername
+
+      umount /media/$foldername
+      rmdir /media/$foldername
+
+      createtorrentdata "$item" $foldername
+    fi
   else
     blurayfolder=$(getsubfolder "$item")
     if [[ $blurayfolder == "" ]]; then
