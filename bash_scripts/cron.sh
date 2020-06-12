@@ -91,7 +91,7 @@ do
   
   location="$item"
   removeiso=1
-  foldername=$(basename"$item")
+  foldername=$(basename "$item")
   imagefiles=$iso
 
   if [[ "$imagefiles" != "" ]]; then
