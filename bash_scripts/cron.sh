@@ -111,27 +111,27 @@ do
 
     mts=$(find "$item" -name *.m2ts)
     if [[ $mts != "" ]]; then
-      rm $mts
+      rm "$mts"
     fi
 
     nfo=$(find "$item" -name *.nfo)
     if [[ $nfo != "" ]]; then
-      rm $nfo
+      rm "$nfo"
     fi
 
     jpg=$(find "$item" -name *.jpg)
     if [[ $jpg != "" ]]; then
-      rm $jpg
+      rm "$jpg"
     fi
 
     proof=$(find "$item" -name proof)
     if [[ $proof != "" ]]; then
-      rm -rf $proof
+      rm -rf "$proof"
     fi
 
     sample=$(find "$item" -name sample)
     if [[ $sample != "" ]]; then
-      rm -rf $sample
+      rm -rf "$sample"
     fi
 
     if [[ $imagefiles != *"3D"* ]];then
@@ -158,14 +158,36 @@ do
       echo "Extracting $imagefiles"
       dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefiles" -o "$location"
 
+      if [ $? -ne 0 ]; then
+        continue
+      fi
+
       if [[ $removeiso == 1 ]]; then
-        echo "Removing $imagefiles"
-        rm $imagefiles
+        echo Removing "$imagefiles"
+        rm "$imagefiles"
+      fi
+
+      if [ $? -ne 0 ]; then
+        continue
       fi
 
       createbdinfo "$location"
+
+      if [ $? -ne 0 ]; then
+        continue
+      fi
+
       createscreens "$location"
+
+      if [ $? -ne 0 ]; then
+        continue
+      fi
+
       createtorrentdata "$location" $foldername
+
+      if [ $? -ne 0 ]; then
+        continue
+      fi
     else      
       mkdir /media/$foldername
       mount -o loop "$imagefiles" /media/$foldername
