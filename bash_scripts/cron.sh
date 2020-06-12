@@ -138,7 +138,9 @@ do
 
     for imagefile in $imagefiles
     do
-      if [[ $imagefile != *"3D"* ]];then
+      img="$imagefile"
+
+      if [[ $img != *"3D"* ]];then
         replacement=${item///chd/}
         if [[ $replacement == $item ]]; then
           replacement=${item///mteam/}
@@ -159,12 +161,12 @@ do
           removeiso=0
         fi
 
-        echo "Extracting $imagefile"
-        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefile" -o "$location"
+        echo "Extracting $img"
+        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$img" -o "$location"
 
         if [[ $removeiso == 1 ]]; then
-          echo "Removing $imagefile"
-          rm "$imagefile"
+          echo "Removing $img"
+          rm $img
         fi
 
         createbdinfo "$location"
@@ -172,7 +174,7 @@ do
         createtorrentdata "$location" $foldername
       else      
         mkdir /media/$foldername
-        mount -o loop "$imagefile" /media/$foldername
+        mount -o loop "$img" /media/$foldername
   
         createbdinfo /media/$foldername
         createscreens /media/$foldername
