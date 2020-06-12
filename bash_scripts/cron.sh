@@ -36,8 +36,18 @@ getsubfolder(){
   current="$1"
   subfolders=$(ls $current)
   bdmvfound=false
+
+  failcount=$2
+  if [[ $failcount == "" ]]; then
+    failcount=0
+  fi
   
   if [[ $subfolders == "" ]];then
+    echo ""
+    exit
+  fi
+
+  if [[ $failcount == 5 ]]; then
     echo ""
     exit
   fi
@@ -55,9 +65,16 @@ getsubfolder(){
   if [[ $bdmvfound == true ]]; then
     echo $current
   else
+    failcount=${failcount+1}
     sub=$(basename $subfolders)
     full="$current/$sub"
-    result=$(getsubfolder "$full")
+    result=$(getsubfolder "$full") $failcount
+
+    if [ $? -ne 0 ]; then
+      echo ""
+      exit
+    fi
+
     echo $result
   fi
 }
