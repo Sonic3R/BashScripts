@@ -113,53 +113,58 @@ fi
 
 folders=$(ls $foldertolookin)
 
-for blurayfolderitem in $folders
-do
-  item="$foldertolookin/$blurayfolderitem"
-  echo Processing "$item"
+if [[ $folders != "" ]]; then
+  for blurayfolderitem in $folders
+  do
+    item="$foldertolookin/$blurayfolderitem"
+    echo Processing "$item"
   
-  location="$item"
-  removeiso=1
-  foldername=$(basename "$item")
-  imagefiles=$(getiso "$item")
+    location="$item"
+    removeiso=1
+    foldername=$(basename "$item")
+    imagefiles=$(getiso "$item")
 
-  if [[ $imagefiles != "" ]]; then
-    echo "$imagefiles"
+    if [[ $imagefiles != "" ]]; then
+      echo "$imagefiles"
 
-    mts=$(find "$item" -name *.m2ts)
-    if [[ $mts != "" ]]; then
-      rm "$mts"
-    fi
+      mts=$(find "$item" -name *.m2ts)
+      if [[ $mts != "" ]]; then
+        rm "$mts"
+      fi
 
-    nfo=$(find "$item" -name *.nfo)
-    if [[ $nfo != "" ]]; then
-      rm "$nfo"
-    fi
+      nfo=$(find "$item" -name *.nfo)
+      if [[ $nfo != "" ]]; then
+        rm "$nfo"
+      fi
 
-    jpg=$(find "$item" -name *.jpg)
-    if [[ $jpg != "" ]]; then
-      rm "$jpg"
-    fi
+      jpg=$(find "$item" -name *.jpg)
+      if [[ $jpg != "" ]]; then
+        rm "$jpg"
+      fi
 
-    proof=$(find "$item" -name proof)
-    if [[ $proof != "" ]]; then
-      rm -rf "$proof"
-    fi
+      proof=$(find "$item" -name proof)
+      if [[ $proof != "" ]]; then
+        rm -rf "$proof"
+      fi
 
-    sample=$(find "$item" -name sample)
-    if [[ $sample != "" ]]; then
-      rm -rf "$sample"
-    fi
+      sample=$(find "$item" -name sample)
+      if [[ $sample != "" ]]; then
+        rm -rf "$sample"
+      fi
 
-    if [[ $imagefiles != *"3D"* ]];then
-      replacement=${item///chd/}
-      if [[ $replacement == $item ]]; then
-        replacement=${item///mteam/}
-
+      if [[ $imagefiles != *"3D"* ]];then
+        replacement=${item///chd/}
         if [[ $replacement == $item ]]; then
-          replacement=${item///hdchina/}
+          replacement=${item///mteam/}
 
-          if [[ $replacement != $item ]]; then
+          if [[ $replacement == $item ]]; then
+            replacement=${item///hdchina/}
+
+            if [[ $replacement != $item ]]; then
+              location=$replacement
+              removeiso=0
+            fi
+          else
             location=$replacement
             removeiso=0
           fi
@@ -167,83 +172,80 @@ do
           location=$replacement
           removeiso=0
         fi
-      else
-        location=$replacement
-        removeiso=0
-      fi
 
-      echo "Extracting $imagefiles"
-      dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefiles" -o "$location"
+        echo "Extracting $imagefiles"
+        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefiles" -o "$location"
 
-      if [ $? -ne 0 ]; then
-        continue
-      fi
+        if [ $? -ne 0 ]; then
+          continue
+        fi
 
-      if [[ $removeiso == 1 ]]; then
-        echo Removing "$imagefiles"
-        rm "$imagefiles"
-      fi
+        if [[ $removeiso == 1 ]]; then
+          echo Removing "$imagefiles"
+          rm "$imagefiles"
+        fi
 
-      if [ $? -ne 0 ]; then
-        continue
-      fi
+        if [ $? -ne 0 ]; then
+          continue
+        fi
 
-      createbdinfo "$location"
+        createbdinfo "$location"
 
-      if [ $? -ne 0 ]; then
-        continue
-      fi
+        if [ $? -ne 0 ]; then
+          continue
+        fi
 
-      createscreens "$location"
+        createscreens "$location"
 
-      if [ $? -ne 0 ]; then
-        continue
-      fi
+        if [ $? -ne 0 ]; then
+          continue
+        fi
 
-      createtorrentdata "$location" $foldername
+        createtorrentdata "$location" $foldername
 
-      if [ $? -ne 0 ]; then
-        continue
-      fi
-    else      
-      mkdir /media/$foldername
-      mount -o loop "$imagefiles" /media/$foldername
+        if [ $? -ne 0 ]; then
+          continue
+        fi
+      else      
+        mkdir /media/$foldername
+        mount -o loop "$imagefiles" /media/$foldername
   
-      createbdinfo /media/$foldername
-      createscreens /media/$foldername
+        createbdinfo /media/$foldername
+        createscreens /media/$foldername
 
-      umount /media/$foldername
-      rmdir /media/$foldername
+        umount /media/$foldername
+        rmdir /media/$foldername
 
+        createtorrentdata "$item" $foldername
+      fi
+    else
+      blurayfolder=$(getsubfolder "$item")
+      if [[ $blurayfolder == "" ]]; then
+        continue
+      fi
+
+      echo "Bluray folder: $blurayfolder"
+      echo "Bluray folder item: $item"
+
+      if [[ $blurayfolder != $item ]];then
+        mv $blurayfolder/* "$item"
+        rm -rf "$blurayfolder"
+      fi
+    
+      mkv=$(find "$item" -name *.mkv)
+
+      if [[ $mkv != "" ]]; then
+        echo "MKV, not bluray, will skip"
+        continue
+      fi
+
+      createbdinfo "$item"
+      createscreens "$item"    
       createtorrentdata "$item" $foldername
     fi
-  else
-    blurayfolder=$(getsubfolder "$item")
-    if [[ $blurayfolder == "" ]]; then
-      continue
+
+    if [[ $movetoblurayfolder == 1 ]]; then
+      mv $item $blurayfolderpath
     fi
-
-    echo "Bluray folder: $blurayfolder"
-    echo "Bluray folder item: $item"
-
-    if [[ $blurayfolder != $item ]];then
-      mv $blurayfolder/* "$item"
-      rm -rf "$blurayfolder"
-    fi
-    
-    mkv=$(find "$item" -name *.mkv)
-
-    if [[ $mkv != "" ]]; then
-      echo "MKV, not bluray, will skip"
-      continue
-    fi
-
-    createbdinfo "$item"
-    createscreens "$item"    
-    createtorrentdata "$item" $foldername
-  fi
-
-  if [[ $movetoblurayfolder == 1 ]]; then
-    mv $item $blurayfolderpath
-  fi
-done
+  done
+fi
