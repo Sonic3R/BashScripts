@@ -104,7 +104,7 @@ do
   location="$item"
   removeiso=1
   foldername=$(basename "$item")
-  imagefiles=($(getiso "$item"))
+  imagefiles=$(getiso "$item")
 
   if [[ $imagefiles != "" ]]; then
     echo "$imagefiles"
