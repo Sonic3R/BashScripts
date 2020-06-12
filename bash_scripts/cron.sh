@@ -60,7 +60,12 @@ getsubfolder(){
   fi
 }
 
-foldertolookin="/home/sonic3r/nzbget/downloads/completed"
+foldertolookin=$1
+
+if [[ $foldertolookin == "" ]]; then
+  foldertolookin="/home/sonic3r/nzbget/downloads/completed"
+fi
+
 folders=$(ls $foldertolookin)
 
 for blurayfolderitem in $folders
