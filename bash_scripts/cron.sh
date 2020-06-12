@@ -38,12 +38,14 @@ getsubfolder(){
   bdmvfound=false
   
   if [[ $subfolders == "" ]];then
+    echo "End of life"
     return ""
   fi
 
   for subfolder in $subfolders
   do
-    if [[ basename($subfolder) == "BDMV" || basename($subfolder) == "bdmv" ]]; then
+    base=$(basename "$subfolder")
+    if [[ $base == "BDMV" || $base == "bdmv" ]]; then
       bdmvfound=true
       break
     fi
@@ -52,7 +54,8 @@ getsubfolder(){
   if [[ $bdmvfound == true ]]; then
     return $current
   else
-    sub=basename($subfolders)
+    sub=$(basename $subfolders)
+    echo "Looking in $sub"
     return getsubfolder "$1/$sub"
   fi
 }
@@ -163,13 +166,18 @@ do
       continue
     fi
 
+    echo "Bluray folder: $blurayfolder"
+    echo "Bluray folder item: $blurayfolderitem"
+
     if [[ $blurayfolder != $blurayfolderitem ]];then
       mv $blurayfolder/* $blurayfolderitem
       rm -rf $blurayfolder
     fi
     
     mkv=$(find "$blurayfolderitem" -name *.mkv)
+
     if [[ $mkv != "" ]]; then
+      echo "MKV, not bluray, will skip"
       continue
     fi
 
