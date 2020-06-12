@@ -62,6 +62,26 @@ getsubfolder(){
   fi
 }
 
+getiso(){
+  location="$1"
+
+  iso=$(find "$location" -name *.iso)
+
+  if [[ $iso == "" ]]; then
+    iso=$(find "$location" -name *.ISO)
+  fi
+
+  if [[ $iso == "" ]]; then
+    iso=$(find "$location" -name *.img)
+  fi
+
+  if [[ $iso == "" ]]; then
+    iso=$(find "$location" -name *.IMG)
+  fi
+
+  echo "$iso"
+}
+
 foldertolookin=$1
 movetoblurayfolder=$2
 blurayfolderpath="/home/sonic3r/torrents/rtorrent/bluray/"
@@ -81,26 +101,14 @@ do
   item="$foldertolookin/$blurayfolderitem"
   echo Processing "$item"
   
-  iso=$(find "$item" -name *.iso)
+  iso=$(getiso "$item")
 
-  if [[ "$iso" == "" ]]; then
-    iso=$(find "$item" -name *.ISO)
-  fi
-
-  if [[ "$iso" == "" ]]; then
-    iso=$(find "$item" -name *.img)
-  fi
-
-  if [[ "$iso" == "" ]]; then
-    iso=$(find "$item" -name *.IMG)
-  fi
-  
   location="$item"
   removeiso=1
   foldername=$(basename "$item")
   imagefiles=$iso
 
-  if [[ "$imagefiles" != "" ]]; then
+  if [[ $imagefiles != "" ]]; then
     echo "$imagefiles"
 
     mts=$(find "$item" -name *.m2ts)
@@ -130,7 +138,7 @@ do
 
     for imagefile in $imagefiles
     do
-      if [[ "$imagefile" != *"3D"* ]];then
+      if [[ $imagefile != *"3D"* ]];then
         replacement=${item///chd/}
         if [[ $replacement == $item ]]; then
           replacement=${item///mteam/}
@@ -151,10 +159,11 @@ do
           removeiso=0
         fi
 
+        echo "Extracting $imagefile"
         dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefile" -o "$location"
 
         if [[ $removeiso == 1 ]]; then
-          echo Removing $imagefile
+          echo "Removing $imagefile"
           rm "$imagefile"
         fi
 
