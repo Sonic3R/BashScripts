@@ -38,14 +38,13 @@ getsubfolder(){
   bdmvfound=false
   
   if [[ $subfolders == "" ]];then
-    echo "End of life"
-    return ""
+    echo ""
+    exit
   fi
 
   for subfolder in $subfolders
   do
     item="$current/$subfolder"
-    echo "Look for BD structure in $item"
     base=$(basename "$item")
     if [[ $base == "BDMV" || $base == "bdmv" ]]; then
       bdmvfound=true
@@ -54,11 +53,12 @@ getsubfolder(){
   done
 
   if [[ $bdmvfound == true ]]; then
-    return $current
+    echo $current
   else
     sub=$(basename $subfolders)
-    echo "Looking in $sub"
-    return getsubfolder "$1/$sub"
+    full="$current/$sub"
+    result=$(getsubfolder "$full")
+    echo $result
   fi
 }
 
