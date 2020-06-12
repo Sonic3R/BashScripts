@@ -97,27 +97,27 @@ do
   if [[ "$imagefiles" != "" ]]; then
     echo "$imagefiles"
 
-    mts=$(find "$blurayfolderitem" -name *.m2ts)
+    mts=$(find "$item" -name *.m2ts)
     if [[ $mts != "" ]]; then
       rm $mts
     fi
 
-    nfo=$(find "$blurayfolderitem" -name *.nfo)
+    nfo=$(find "$item" -name *.nfo)
     if [[ $nfo != "" ]]; then
       rm $nfo
     fi
 
-    jpg=$(find "$blurayfolderitem" -name *.jpg)
+    jpg=$(find "$item" -name *.jpg)
     if [[ $jpg != "" ]]; then
       rm $jpg
     fi
 
-    proof=$(find "$blurayfolderitem" -name proof)
+    proof=$(find "$item" -name proof)
     if [[ $proof != "" ]]; then
       rm -rf $proof
     fi
 
-    sample=$(find "$blurayfolderitem" -name sample)
+    sample=$(find "$item" -name sample)
     if [[ $sample != "" ]]; then
       rm -rf $sample
     fi
@@ -125,14 +125,14 @@ do
     for imagefile in $imagefiles
     do
       if [[ "$imagefile" != *"3D"* ]];then
-        replacement=${blurayfolderitem///chd/}
-        if [[ $replacement == $blurayfolderitem ]]; then
-          replacement=${blurayfolderitem///mteam/}
+        replacement=${item///chd/}
+        if [[ $replacement == $item ]]; then
+          replacement=${item///mteam/}
 
-          if [[ $replacement == $blurayfolderitem ]]; then
-            replacement=${blurayfolderitem///hdchina/}
+          if [[ $replacement == $item ]]; then
+            replacement=${item///hdchina/}
 
-            if [[ $replacement != $blurayfolderitem ]]; then
+            if [[ $replacement != $item ]]; then
               location=$replacement
               removeiso=0
             fi
@@ -165,7 +165,7 @@ do
         umount /media/$foldername
         rmdir /media/$foldername
 
-        createtorrentdata "$blurayfolderitem" $foldername
+        createtorrentdata "$item" $foldername
       fi
     done
   else
