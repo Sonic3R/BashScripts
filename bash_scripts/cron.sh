@@ -241,6 +241,16 @@ if [[ $folders != "" ]]; then
         rm -rf "$sample"
       fi
 
+      nfo=$(find "$item" -iname *.nfo -maxdepth 1)
+      if [[ $nfo != "" ]]; then 
+        rm -rf $nfo
+      fi
+
+      jpg=$(find "$item" -iname *.jpg -maxdepth 1)
+      if [[ $jpg != "" ]]; then 
+        rm -rf $jpg
+      fi
+
       createbdinfo "$item"
       createscreens "$item"    
       createtorrentdata "$item" $foldername
