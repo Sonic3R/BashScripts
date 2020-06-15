@@ -32,50 +32,14 @@ createscreens() {
   bash /home/ffmpeg.sh "$1" 12
 }
 
-getsubfolder(){
+getbdmvfolder() {
   current="$1"
-  subfolders=$(ls $current)
-  bdmvfound=false
+  bdmv=$(find "$current" -iname bdmv -type d)
 
-  failcount=$2
-  if [[ $failcount == "" ]]; then
-    failcount=0
-  fi
-  
-  if [[ $subfolders == "" ]];then
+  if [[ $bdmv == "" ]]; then
     echo ""
-    exit
-  fi
-
-  if [[ $failcount == 5 ]]; then
-    echo ""
-    exit
-  fi
-
-  for subfolder in $subfolders
-  do
-    item="$current/$subfolder"
-    base=$(basename "$item")
-    if [[ $base == "BDMV" || $base == "bdmv" ]]; then
-      bdmvfound=true
-      break
-    fi
-  done
-
-  if [[ $bdmvfound == true ]]; then
-    echo $current
   else
-    failcount=${failcount+1}
-    sub=$(basename $subfolders)
-    full="$current/$sub"
-    result=$(getsubfolder "$full") $failcount
-
-    if [ $? -ne 0 ]; then
-      echo ""
-      exit
-    fi
-
-    echo $result
+    echo "$(dirname "$bdmv")"
   fi
 }
 
@@ -211,7 +175,7 @@ if [[ $folders != "" ]]; then
         createtorrentdata "$item" $foldername
       fi
     else
-      blurayfolder=$(getsubfolder "$item")
+      blurayfolder=$(getbdmvfolder "$item")
       if [[ $blurayfolder == "" ]]; then
         continue
       fi
