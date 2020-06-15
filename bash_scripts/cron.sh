@@ -67,12 +67,15 @@ if [[ $movetoblurayfolder == "" ]]; then
   movetoblurayfolder=1
 fi
 
-folders=$(ls $foldertolookin)
+folders=$(find "$foldertolookin" -mindepth 1 -maxdepth 1 -type d)
+
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
 
 if [[ $folders != "" ]]; then
   for blurayfolderitem in $folders
   do
-    item="$foldertolookin/$blurayfolderitem"
+    item=$blurayfolderitem
     echo Processing "$item"
   
     location="$item"
@@ -225,3 +228,5 @@ if [[ $folders != "" ]]; then
     fi
   done
 fi
+
+IFS=$SAVEIFS
