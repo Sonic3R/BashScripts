@@ -36,18 +36,10 @@ for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
   
-  iso=$(find "$blurayfolderitem" -name *.iso)
+  iso=$(find "$blurayfolderitem" -iname *.iso)
 
   if [[ "$iso" == "" ]]; then
-    iso=$(find "$blurayfolderitem" -name *.ISO)
-  fi
-
-  if [[ "$iso" == "" ]]; then
-    iso=$(find "$blurayfolderitem" -name *.img)
-  fi
-
-  if [[ "$iso" == "" ]]; then
-    iso=$(find "$blurayfolderitem" -name *.IMG)
+    iso=$(find "$blurayfolderitem" -iname *.img)
   fi
   
   location=$blurayfolderitem
@@ -58,17 +50,17 @@ do
   if [[ "$imagefiles" != "" ]]; then
     echo "$imagefiles"
 
-    mts=$(find "$blurayfolderitem" -name *.m2ts)
+    mts=$(find "$blurayfolderitem" -iname *.m2ts)
     if [[ $mts != "" ]]; then
       rm $mts
     fi
 
-    nfo=$(find "$blurayfolderitem" -name *.nfo)
+    nfo=$(find "$blurayfolderitem" -iname *.nfo)
     if [[ $nfo != "" ]]; then
       rm $nfo
     fi
 
-    jpg=$(find "$blurayfolderitem" -name *.jpg)
+    jpg=$(find "$blurayfolderitem" -iname *.jpg)
     if [[ $jpg != "" ]]; then
       rm $jpg
     fi

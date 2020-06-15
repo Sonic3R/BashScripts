@@ -82,18 +82,10 @@ getsubfolder(){
 getiso(){
   location="$1"
 
-  iso=$(find "$location" -name *.iso)
+  iso=$(find "$location" -iname *.iso)
 
   if [[ $iso == "" ]]; then
-    iso=$(find "$location" -name *.ISO)
-  fi
-
-  if [[ $iso == "" ]]; then
-    iso=$(find "$location" -name *.img)
-  fi
-
-  if [[ $iso == "" ]]; then
-    iso=$(find "$location" -name *.IMG)
+    iso=$(find "$location" -iname *.img)
   fi
 
   echo "$iso"
@@ -127,27 +119,27 @@ if [[ $folders != "" ]]; then
     if [[ $imagefiles != "" ]]; then
       echo "$imagefiles"
 
-      mts=$(find "$item" -name *.m2ts)
+      mts=$(find "$item" -iname *.m2ts)
       if [[ $mts != "" ]]; then
         rm "$mts"
       fi
 
-      nfo=$(find "$item" -name *.nfo)
+      nfo=$(find "$item" -iname *.nfo)
       if [[ $nfo != "" ]]; then
         rm "$nfo"
       fi
 
-      jpg=$(find "$item" -name *.jpg)
+      jpg=$(find "$item" -iname *.jpg)
       if [[ $jpg != "" ]]; then
         rm "$jpg"
       fi
 
-      proof=$(find "$item" -name proof)
+      proof=$(find "$item" -iname proof)
       if [[ $proof != "" ]]; then
         rm -rf "$proof"
       fi
 
-      sample=$(find "$item" -name sample)
+      sample=$(find "$item" -iname sample)
       if [[ $sample != "" ]]; then
         rm -rf "$sample"
       fi
@@ -232,11 +224,21 @@ if [[ $folders != "" ]]; then
         rm -rf "$blurayfolder"
       fi
     
-      mkv=$(find "$item" -name *.mkv)
+      mkv=$(find "$item" -iname *.mkv)
 
       if [[ $mkv != "" ]]; then
         echo "MKV, not bluray, will skip"
         continue
+      fi
+
+      proof=$(find "$item" -iname proof)
+      if [[ $proof != "" ]]; then
+        rm -rf "$proof"
+      fi
+
+      sample=$(find "$item" -iname sample)
+      if [[ $sample != "" ]]; then
+        rm -rf "$sample"
       fi
 
       createbdinfo "$item"
