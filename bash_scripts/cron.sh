@@ -67,10 +67,10 @@ if [[ $movetoblurayfolder == "" ]]; then
   movetoblurayfolder=1
 fi
 
-folders=$(find "$foldertolookin" -mindepth 1 -maxdepth 1 -type d)
-
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
+
+folders=$(find "$foldertolookin" -mindepth 1 -maxdepth 1 -type d)
 
 if [[ $folders != "" ]]; then
   for blurayfolderitem in $folders
