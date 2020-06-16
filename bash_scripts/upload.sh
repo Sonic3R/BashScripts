@@ -14,7 +14,7 @@ if [[ $location == "" ]]; then
 fi
 
 if [[ $watch == "" ]]; then
-  watch=$(basename "$path")
+  watch="/home/sonic3r/torrents/rtorrent/bluraywatch"
 fi
 
 dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -w "$watch"
