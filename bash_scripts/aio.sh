@@ -38,19 +38,17 @@ getandsaveimdb() {
 
   nfo=$(find "$folder" -name *.nfo)
 
-  if [[ $nfo == "" ]]; then
-    exit
+  if [[ $nfo != "" ]]; then
+   nfocontent=$(cat "$nfo")
+
+    if [[ $whereto == "" ]]; then 
+      whereto="/home/ftpuser"
+    fi
+
+    imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
+    name=$(basename $folder)
+    echo $imdb > "${whereto}/${name}.imdb"
   fi
-
-  nfocontent=$(cat "$nfo")
-
-  if [[ $whereto == "" ]]; then 
-    whereto="/home/ftpuser"
-  fi
-
-  imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
-  name=$(basename $folder)
-  echo $imdb > "${whereto}/${name}.imdb"
 }
 
 getiso(){
