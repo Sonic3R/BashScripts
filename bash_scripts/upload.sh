@@ -17,4 +17,5 @@ if [[ $watch == "" ]]; then
   watch="/home/sonic3r/bluraywatcher/"
 fi
 
-dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -w "$watch"
+#dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -w "$watch"
+dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c

@@ -55,6 +55,27 @@ getiso(){
   echo "$iso"
 }
 
+getandsaveimdb() {
+  folder="$1"
+  whereto="$2"
+
+  nfo=$(find "$folder" -name *.nfo)
+
+  if [[ $nfo == "" ]]; then
+    exit
+  fi
+
+  nfocontent=$(cat "$nfo")
+
+  if [[ $whereto == "" ]]; then 
+    whereto="/home/ftpuser"
+  fi
+
+  imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
+  name=$(basename $folder)
+  echo $imdb > $whereto/${name}.imdb
+}
+
 foldertolookin=$1
 movetoblurayfolder=$2
 blurayfolderpath="/home/sonic3r/torrents/rtorrent/bluray/"
@@ -85,6 +106,8 @@ if [[ $folders != "" ]]; then
 
     if [[ $imagefiles != "" ]]; then
       echo "$imagefiles"
+
+      getandsaveimdb $item
 
       mts=$(find "$item" -iname *.m2ts)
       if [[ $mts != "" ]]; then
@@ -197,6 +220,8 @@ if [[ $folders != "" ]]; then
         echo "MKV, not bluray, will skip"
         continue
       fi
+
+      getandsaveimdb $item
 
       proof=$(find "$item" -iname proof)
       if [[ $proof != "" ]]; then
