@@ -73,7 +73,7 @@ getandsaveimdb() {
 
   imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
   name=$(basename $folder)
-  echo $imdb > $whereto/${name}.imdb
+  echo $imdb > "${whereto}/${name}.imdb"
 }
 
 foldertolookin=$1
