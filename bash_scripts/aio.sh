@@ -35,8 +35,17 @@ createscreens() {
 getandsaveimdb() {
   folder="$1"
   whereto="$2"
+  name=$(basename $folder)
 
-  nfo=$(find "$folder" -name *.nfo)
+  nfo=""
+  original="/home/sonic3r/torrents/rtorrent/$name"
+  if [[ -d $original ]]; then
+    nfo=$(find "$original" -name *.nfo)
+  fi
+  
+  if [[ $nfo == "" ]]; then
+    nfo=$(find "$folder" -name *.nfo)
+  fi
 
   if [[ $nfo != "" ]]; then
    nfocontent=$(cat "$nfo")
@@ -46,7 +55,6 @@ getandsaveimdb() {
     fi
 
     imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
-    name=$(basename $folder)
     echo $imdb > "${whereto}/${name}.imdb"
   fi
 }
