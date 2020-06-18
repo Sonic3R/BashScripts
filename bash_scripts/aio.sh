@@ -71,6 +71,8 @@ getiso(){
   echo "$iso"
 }
 
+SAVEIFS=$IFS
+
 for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
@@ -81,6 +83,8 @@ do
   removeiso=1
   foldername=$(basename "$blurayfolderitem")
   imagefiles=$iso
+
+  IFS=$(echo -en "\n\b")
 
   if [[ "$imagefiles" != "" ]]; then
     echo "$imagefiles"
@@ -155,4 +159,6 @@ do
 
     getandsaveimdb "$blurayfolderitem"
   fi
+
+  IFS=$SAVEIFS
 done
