@@ -84,7 +84,7 @@ getandsaveimdb() {
 
 foldertolookin=$1
 movetoblurayfolder=$2
-blurayfolderpath="/home/sonic3r/torrents/rtorrent/bluray/"
+movetopath="/home/sonic3r/torrents/rtorrent/blurayready/"
 
 if [[ $foldertolookin == "" ]]; then
   foldertolookin="/home/sonic3r/nzbget/downloads/completed"
@@ -255,8 +255,10 @@ if [[ $folders != "" ]]; then
     fi
 
     if [[ $movetoblurayfolder == 1 ]]; then
-      mv $item $blurayfolderpath
-    fi
+      mv $item $movetopath
+      txt="${movetopath}/${foldername}.ready"
+      echo "" > $txt
+    fi    
   done
 fi
 
