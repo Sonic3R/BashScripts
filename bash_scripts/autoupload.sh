@@ -15,6 +15,7 @@ fi
 folder=$(find "$foldertolookin" -mindepth 1 -maxdepth 1 -type d | head -n1)
 
 if [[ $folder == "" ]]; then
+  echo "Nothing to process"
   exit
 fi
 
@@ -26,7 +27,7 @@ readyfile="${name}.ready"
 
 ready=$(find "$foldertolookin" -name $readyfile | head -n1)
 
-if[[ $ready == "" ]]; then
+if [[ $ready == "" ]]; then
   bash /home/aio.sh "$newfolder"
 else
   rm $ready
