@@ -32,7 +32,7 @@ if ! dpkg -s $pkgs >/dev/null 2>&1; then
   exit 1
 fi
 
-bigfile=$(find "${blurayfolder}/" -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
+bigfile=$(find "${blurayfolder}/" -type f \( -iname *.m2ts -o -iname *.ssif \) -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
 
 echo Movie found: "$bigfile"
 
