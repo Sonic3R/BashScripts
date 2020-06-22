@@ -54,12 +54,14 @@ if [[ $bdmv != "" ]]; then
   prevdir=$(dirname $bdmv)
 
   if [[ $prevdir != $folder ]]; then
+    echo "Moving ${prevdir}/* to ${folder}/"
     mv "${prevdir}/*" "${folder}/"
     rm -rf $prevdir
   fi
 fi
 
-mv $folder "$movetopath/"
+echo "Moving $folder to ${movetopath}/"
+mv $folder "${movetopath}/"
 
 name=$(basename $folder)
 newfolder="$movetopath/$name"
