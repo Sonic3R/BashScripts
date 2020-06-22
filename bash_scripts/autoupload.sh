@@ -49,7 +49,12 @@ do
   current=$(getsize "$folder")
 
   if [[ $prevsize != $current ]]; then
-    echo "Operation not done (extracting etc). Will retry in 5 secs"
+    if [[ $prevsize == 0 ]]; then
+      echo "Check if operation is in progress. Will retry in 5 secs"
+    else
+      echo "Operation in progress... Will retry in 5 secs"
+    fi
+
     prevsize=$(getsize "$folder")
     sleep 5
   else
