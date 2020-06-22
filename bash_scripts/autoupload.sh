@@ -37,9 +37,9 @@ fi
 size=$(getsize "$folder")
 prevsize=0
   
-while [[ $prevsize != $size ]]
+while [[ $prevsize != `$(getsize "$folder")` ]]
 do
-  echo "Operatio not done (extracting etc). Will retry in 5 secs"
+  echo "Operation not done (extracting etc). Will retry in 5 secs"
   sleep 5
   prevsize=$(getsize "$folder")
 done

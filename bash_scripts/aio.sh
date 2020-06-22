@@ -83,11 +83,11 @@ do
   size=$(getsize "$blurayfolderitem")
   prevsize=0
   
-  while [[ $prevsize != $size ]]
+  while [[ $prevsize != `$(getsize "$folder")` ]]
   do
-    echo "Not done. Will retry in 5 secs"
+    echo "Operation not done (extracting etc). Will retry in 5 secs"
     sleep 5
-    prevsize=$(getsize "$blurayfolderitem")
+    prevsize=$(getsize "$folder")
   done
   
   iso=$(getiso "$blurayfolderitem")
