@@ -80,13 +80,13 @@ SAVEIFS=$IFS
 for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
-  size=getsize "$blurayfolderitem"
+  size=$(getsize "$blurayfolderitem")
   prevsize=0
   
   while [[ $prevsize != $size ]]
   do
 	  sleep 5
-    prevsize=getsize "$blurayfolderitem"
+    prevsize=$(getsize "$blurayfolderitem")
   done
   
   iso=$(getiso "$blurayfolderitem")
