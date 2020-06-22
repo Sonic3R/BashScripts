@@ -57,7 +57,7 @@ if [[ $bdmv != "" ]]; then
 
   if [[ $prevdir != $folder ]]; then
     echo "Moving ${prevdir}/* to ${folder}/"
-    mv "${prevdir}/*" "${folder}/"
+    mv "${prevdir}"/* "${folder}/"
     rm -rf $prevdir
   fi
 fi
