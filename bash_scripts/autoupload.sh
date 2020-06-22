@@ -15,6 +15,14 @@ getsize(){
   echo $(du -b --max-depth=0 "$1" | cut -f 1)
 }
 
+ismultidisk() {
+  if [[ $1 =~ .*DISC[0-9]+.* ]]; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
 foldertolookin="$1"
 movetopath="/home/sonic3r/torrents/rtorrent/bluray"
 
@@ -77,4 +85,8 @@ else
   rm $ready
 fi
 
-bash /home/upload.sh "$newfolder"
+multi=$(ismultidisk "$newfolder")
+
+if [[ $multi == 0 ]]; then
+  bash /home/upload.sh "$newfolder"
+fi

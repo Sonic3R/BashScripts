@@ -18,7 +18,7 @@ createtorrentdata() {
     fi
 
     if [[ ! -f $torrentfile ]]; then
-      echo "$torrentfile already exists. Skipping"
+      echo "$torrentfile does not exists. Will create it"
       bash /home/create_torrent.sh "$1" $torrentfile
     fi
   fi
