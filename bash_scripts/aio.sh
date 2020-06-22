@@ -71,11 +71,23 @@ getiso(){
   echo "$iso"
 }
 
+getsize(){
+  echo $(du -b --max-depth=0 "$1" | cut -f 1)
+}
+
 SAVEIFS=$IFS
 
 for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
+  size=getsize "$blurayfolderitem"
+  prevsize=0
+  
+  while [[ $prevsize != $size ]]
+  do
+	  sleep 5
+    prevsize=getsize "$blurayfolderitem"
+  done
   
   iso=$(getiso "$blurayfolderitem")
   
