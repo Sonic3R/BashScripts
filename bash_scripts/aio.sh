@@ -12,9 +12,10 @@ createtorrentdata() {
 
     # if contains DISC1, DISC2 etc then create torrent from main folder
     if [[ $replacement =~ .*DISC[0-9]+.* ]]; then
-      newname=$(basename "$name")
-      replacement=${newname// /.}
-      torrentfile="/home/ftpuser/$replacement.torrent"
+      exit
+      #newname=$(basename "$name")
+      #replacement=${newname// /.}
+      #torrentfile="/home/ftpuser/$replacement.torrent"
     fi
 
     if [[ ! -f $torrentfile ]]; then
