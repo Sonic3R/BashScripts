@@ -84,11 +84,11 @@ do
 
   while :
   do
-    current=$(getsize "$folder")
+    current=$(getsize "$blurayfolderitem")
 
     if [[ $prevsize != $current ]]; then
       echo "Operation not done (extracting etc). Will retry in 5 secs"
-      prevsize=$(getsize "$folder")
+      prevsize=$(getsize "$blurayfolderitem")
       sleep 5
     else
       break
