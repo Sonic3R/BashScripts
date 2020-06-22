@@ -53,6 +53,8 @@ bdmv=$(getbdmvfolder "$folder")
 if [[ $bdmv != "" ]]; then
   prevdir=$(dirname $bdmv)
 
+  echo "BDMV location is $bdmv ::: and it should be in $folder"
+
   if [[ $prevdir != $folder ]]; then
     echo "Moving ${prevdir}/* to ${folder}/"
     mv "${prevdir}/*" "${folder}/"
