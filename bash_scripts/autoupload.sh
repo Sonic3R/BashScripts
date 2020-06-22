@@ -11,6 +11,10 @@ getbdmvfolder() {
   fi
 }
 
+getsize(){
+  echo $(du -b --max-depth=0 "$1" | cut -f 1)
+}
+
 foldertolookin="$1"
 movetopath="/home/sonic3r/torrents/rtorrent/bluray"
 
@@ -29,6 +33,16 @@ if [[ $folder == "" ]]; then
   echo "Nothing to process"
   exit
 fi
+
+size=$(getsize "$folder")
+prevsize=0
+  
+while [[ $prevsize != $size ]]
+do
+  echo "Not done. Will rerty in 5 secs"
+  sleep 5
+  prevsize=$(getsize "$folder")
+done
 
 bdmv=$(getbdmvfolder "$folder")
 if [[ $bdmv != "" ]]; then
