@@ -85,7 +85,8 @@ do
   
   while [[ $prevsize != $size ]]
   do
-	  sleep 5
+    echo "Not done. Will rerty in 5 secs"
+    sleep 5
     prevsize=$(getsize "$blurayfolderitem")
   done
   
