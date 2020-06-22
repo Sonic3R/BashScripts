@@ -80,14 +80,19 @@ SAVEIFS=$IFS
 for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
-  size=$(getsize "$blurayfolderitem")
   prevsize=0
-  
-  while [[ $prevsize != `$(getsize "$folder")` ]]
+
+  while :
   do
-    echo "Operation not done (extracting etc). Will retry in 5 secs"
-    sleep 5
-    prevsize=$(getsize "$folder")
+    current=$(getsize "$folder")
+
+    if [[ $prevsize != $current ]]; then
+      echo "Operation not done (extracting etc). Will retry in 5 secs"
+      prevsize=$(getsize "$folder")
+      sleep 5
+    else
+      break
+    fi
   done
   
   iso=$(getiso "$blurayfolderitem")
