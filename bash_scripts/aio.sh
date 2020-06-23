@@ -16,11 +16,11 @@ createtorrentdata() {
       #newname=$(basename "$name")
       #replacement=${newname// /.}
       #torrentfile="/home/ftpuser/$replacement.torrent"
-    fi
-
-    if [[ ! -f $torrentfile ]]; then
-      echo "$torrentfile does not exists. Will create it"
-      bash /home/create_torrent.sh "$1" $torrentfile
+    else
+      if [[ ! -f $torrentfile ]]; then
+        echo "$torrentfile does not exists. Will create it"
+        bash /home/create_torrent.sh "$1" $torrentfile
+      fi
     fi
   fi
 }
