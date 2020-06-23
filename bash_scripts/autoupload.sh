@@ -42,24 +42,12 @@ if [[ $folder == "" ]]; then
   exit
 fi
 
-prevsize=0
-  
-while :
+busystatus=$(lsof "$folder"/*)
+
+while [[ $busystatus != "" ]]
 do
-  current=$(getsize "$folder")
-
-  if [[ $prevsize != $current ]]; then
-    if [[ $prevsize == 0 ]]; then
-      echo "Check if operation is in progress. Will retry in 5 secs"
-    else
-      echo "Operation in progress... Will retry in 5 secs"
-    fi
-
-    prevsize=$(getsize "$folder")
-    sleep 5
-  else
-    break
-  fi
+  echo "$folder is busy"
+  sleep 10
 done
 
 bdmv=$(getbdmvfolder "$folder")
