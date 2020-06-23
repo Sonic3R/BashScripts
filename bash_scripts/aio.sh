@@ -82,12 +82,13 @@ for blurayfolderitem in "$@"
 do
   echo Processing "$blurayfolderitem"
 
-  busystatus=$(lsof "$folder"/*)
+  busystatus=$(lsof "$blurayfolderitem"/*)
 
   while [[ $busystatus != "" ]]
   do
-    echo "$folder is busy"
+    echo "$blurayfolderitem is busy"
     sleep 10
+    busystatus=$(lsof "$blurayfolderitem"/*)
   done
   
   iso=$(getiso "$blurayfolderitem")

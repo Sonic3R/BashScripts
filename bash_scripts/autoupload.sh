@@ -48,6 +48,7 @@ while [[ $busystatus != "" ]]
 do
   echo "$folder is busy"
   sleep 10
+  busystatus=$(lsof "$folder"/*)
 done
 
 bdmv=$(getbdmvfolder "$folder")
