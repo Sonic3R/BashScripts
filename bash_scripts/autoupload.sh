@@ -16,7 +16,7 @@ getsize(){
 }
 
 ismultidisk() {
-  if [[ $1 =~ .*DISC[0-9]+.* ]]; then
+  if [[ $1 =~ .*DISC[0-9]+.* || $1 =~ .*D[0-9]+.* ]]; then
     echo 1
   else
     echo 0

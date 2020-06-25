@@ -10,12 +10,10 @@ createtorrentdata() {
   else
     torrentfile="/home/ftpuser/$replacement.torrent"
 
-    # if contains DISC1, DISC2 etc then create torrent from main folder
-    if [[ $replacement =~ .*DISC[0-9]+.* ]]; then
-      exit
-      #newname=$(basename "$name")
-      #replacement=${newname// /.}
-      #torrentfile="/home/ftpuser/$replacement.torrent"
+    # if contains DISC1, DISC2 etc OR D01 D02 then create torrent from main folder
+    if [[ $replacement =~ .*DISC[0-9]+.* || $replacement =~ .*D[0-9]+.* ]]; then
+      #skip for now
+      echo "Skipping"
     else
       if [[ ! -f $torrentfile ]]; then
         echo "$torrentfile does not exists. Will create it"
