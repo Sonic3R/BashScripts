@@ -2,7 +2,7 @@
 
 path="$1"
 location="$2"
-watch="$3"
+kind="$3"
 
 if [[ $path == "" ]]; then
   echo "Invalid path"
@@ -13,9 +13,8 @@ if [[ $location == "" ]]; then
   location="/home/ftpuser/"
 fi
 
-if [[ $watch == "" ]]; then
-  watch="/home/sonic3r/bluraywatcher/"
+if [[ $kind == "" ]]; then
+  kind="bluray"
 fi
 
-#dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -w "$watch"
-dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c
+dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c -t $kind

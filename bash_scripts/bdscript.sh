@@ -18,4 +18,4 @@ fi
 
 echo "$blurayfolder"
 foldername=$(basename "$blurayfolder")
-dotnet "$bdinfofolder/BDInfo.dll" -p "$blurayfolder" -r "$outputlocation" -o "${foldername}.txt" -b -a -l -y -k -m
+dotnet "$bdinfofolder/BDInfo.dll" -p "$blurayfolder" -r "$outputlocation" -o "${foldername}.txt" -b -a -l -y -k -m -j
