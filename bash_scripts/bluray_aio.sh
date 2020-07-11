@@ -142,15 +142,35 @@ do
         fi
 
         dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefile" -o "$location"
+        
+        # if can extract using above program, if not then use mount style and copy from there
+        if [[ $? -eq 0 ]]; then
+          if [[ $removeiso == 1 ]]; then
+            echo Removing $imagefile
+            rm "$imagefile"
+          fi
 
-        if [[ $removeiso == 1 ]]; then
-          echo Removing $imagefile
-          rm "$imagefile"
+          createbdinfo "$location"
+          createscreens "$location"
+          createtorrentdata "$location" $foldername
+        else
+          mkdir /media/$foldername
+          mount -o loop "$imagefile" /media/$foldername
+
+          cp -rf /media/$foldername/* "$location"/
+
+          umount /media/$foldername
+          rmdir /media/$foldername
+
+          if [[ $removeiso == 1 ]]; then
+            echo Removing $imagefile
+            rm "$imagefile"
+          fi
+            
+          createbdinfo "$location"
+          createscreens "$location"
+          createtorrentdata "$location" $foldername
         fi
-
-        createbdinfo "$location"
-        createscreens "$location"
-        createtorrentdata "$location" $foldername
       else      
         mkdir /media/$foldername
         mount -o loop "$imagefile" /media/$foldername
