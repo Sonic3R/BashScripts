@@ -18,7 +18,7 @@ if [[ $screenshotnum -eq 0 || $screenshotnum == "" ]]; then
 fi
 
 if [[ "$outputlocation" == "" ]]; then
-  outputlocation="/home/ftpuser"
+  outputlocation="/home/sonic3r/myscripts/outputs"
 fi
 
 bigfile=$(find "${blurayfolder}/" -type f \( -iname *.m2ts -o -iname *.ssif \) -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
@@ -30,4 +30,4 @@ if [[ $bigfile == "" ]]; then
   exit 1
 fi
 
-bash /home/ffmpeg_base.sh $bigfile $screenshotnum $outputlocation $foldername
+bash /home/sonic3r/myscripts/ffmpeg_base.sh $bigfile $screenshotnum $outputlocation $foldername

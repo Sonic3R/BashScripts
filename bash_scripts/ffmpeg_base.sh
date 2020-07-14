@@ -17,7 +17,7 @@ if [[ $screenshotnum -eq 0 || $screenshotnum == "" ]]; then
 fi
 
 if [[ "$outputlocation" == "" ]]; then
-  outputlocation="/home/ftpuser"
+  outputlocation="/home/sonic3r/myscripts/outputs"
 fi
 
 echo Movie found: "$bigfile"

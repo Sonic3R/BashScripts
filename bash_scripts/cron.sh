@@ -8,28 +8,28 @@ createtorrentdata() {
   if [[ $replacement =~ .*S[0-9]+\.?D[0-9]+.* ]]; then
     echo "Won't create torrent for $replacement"
   else
-    torrentfile="/home/ftpuser/$replacement.torrent"
+    torrentfile="/home/sonic3r/myscripts/outputs/$replacement.torrent"
 
     # if contains DISC1, DISC2 etc then create torrent from main folder
     if [[ $replacement =~ .*DISC[0-9]+.* ]]; then
       newname=$(basename "$name")
       replacement=${newname// /.}
-      torrentfile="/home/ftpuser/$replacement.torrent"
+      torrentfile="/home/sonic3r/myscripts/outputs/$replacement.torrent"
     fi
 
     if [[ ! -f $torrentfile ]]; then
       echo "$torrentfile already exists. Skipping"
-      bash /home/create_torrent.sh "$1" $torrentfile
+      bash /home/sonic3r/myscripts/create_torrent.sh "$1" $torrentfile
     fi
   fi
 }
 
 createbdinfo() {
-  bash /home/bdscript.sh "$1"
+  bash /home/sonic3r/myscripts/bdscript.sh "$1"
 }
 
 createscreens() {
-  bash /home/ffmpeg.sh "$1" 12
+  bash /home/sonic3r/myscripts/ffmpeg.sh "$1" 12
 }
 
 getbdmvfolder() {
@@ -74,7 +74,7 @@ getandsaveimdb() {
    nfocontent=$(cat "$nfo")
 
     if [[ $whereto == "" ]]; then 
-      whereto="/home/ftpuser"
+      whereto="/home/sonic3r/myscripts/outputs"
     fi
 
     imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
@@ -162,7 +162,7 @@ if [[ $folders != "" ]]; then
         fi
 
         echo "Extracting $imagefiles"
-        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefiles" -o "$location"
+        dotnet /home/sonic3r/myscripts/bdextract/BDExtractor.dll -p "$imagefiles" -o "$location"
 
         if [ $? -ne 0 ]; then
           continue

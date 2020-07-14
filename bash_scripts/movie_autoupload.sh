@@ -1,7 +1,7 @@
 #!/bin/bash
 
 item="$1"
-saveto="/home/ftpuser"
+saveto="/home/sonic3r/myscripts"
 
 pkgs='mediainfo'
 if ! dpkg -s $pkgs >/dev/null 2>&1; then

@@ -5,7 +5,7 @@ outputlocation=${args[1]}
 bdinfofolder=${args[2]}
 
 if [[ $bdinfofolder == "" ]]; then
-  bdinfofolder="/home/ftpuser/bdinfo"
+  bdinfofolder="/home/sonic3r/myscripts/bdinfo"
 fi
 
 if [[ $blurayfolder == "" ]]; then
@@ -13,7 +13,7 @@ if [[ $blurayfolder == "" ]]; then
 fi
 
 if [[ $outputlocation == "" ]]; then
-  outputlocation="/home/ftpuser"
+  outputlocation="/home/sonic3r/myscripts/outputs"
 fi
 
 echo "$blurayfolder"

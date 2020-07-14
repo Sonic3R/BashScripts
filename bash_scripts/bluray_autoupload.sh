@@ -74,7 +74,7 @@ readyfile="${name}.ready"
 ready=$(find "$foldertolookin" -name $readyfile | head -n1)
 
 if [[ $ready == "" ]]; then
-  bash /home/aio.sh "$newfolder"
+  bash /home/sonic3r/myscripts/bluray_aio.sh "$newfolder"
 else
   rm $ready
 fi
@@ -82,5 +82,5 @@ fi
 multi=$(ismultidisk "$newfolder")
 
 if [[ $multi == 0 ]]; then
-  bash /home/upload.sh "$newfolder"
+  bash /home/sonic3r/myscripts/upload.sh "$newfolder"
 fi

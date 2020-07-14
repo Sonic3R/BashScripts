@@ -10,11 +10,11 @@ if [[ $path == "" ]]; then
 fi
 
 if [[ $location == "" ]]; then
-  location="/home/ftpuser/"
+  location="/home/sonic3r/myscripts/outputs/"
 fi
 
 if [[ $kind == "" ]]; then
   kind="bluray"
 fi
 
-dotnet /home/ftpuser/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c -t $kind
+dotnet /home/sonic3r/myscripts/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c -t $kind

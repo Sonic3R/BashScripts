@@ -8,7 +8,7 @@ createtorrentdata() {
   if [[ $replacement =~ .*S[0-9]+\.?D[0-9]+.* ]]; then
     echo "Won't create torrent for $replacement"
   else
-    torrentfile="/home/ftpuser/$replacement.torrent"
+    torrentfile="/home/sonic3r/myscripts/outputs/$replacement.torrent"
 
     # if contains DISC1, DISC2 etc OR D01 D02 then create torrent from main folder
     if [[ $replacement =~ .*DISC[0-9]+.* || $replacement =~ .*D[0-9]+.* ]]; then
@@ -17,18 +17,18 @@ createtorrentdata() {
     else
       if [[ ! -f $torrentfile ]]; then
         echo "$torrentfile does not exists. Will create it"
-        bash /home/create_torrent.sh "$1" $torrentfile
+        bash /home/sonic3r/myscripts/create_torrent.sh "$1" $torrentfile
       fi
     fi
   fi
 }
 
 createbdinfo() {
-  bash /home/bdscript.sh "$1"
+  bash /home/sonic3r/myscripts/bdscript.sh "$1"
 }
 
 createscreens() {
-  bash /home/ffmpeg.sh "$1" 12
+  bash /home/sonic3r/myscripts/ffmpeg.sh "$1" 12
 }
 
 getandsaveimdb() {
@@ -50,7 +50,7 @@ getandsaveimdb() {
    nfocontent=$(cat "$nfo")
 
     if [[ $whereto == "" ]]; then 
-      whereto="/home/ftpuser"
+      whereto="/home/sonic3r/myscripts/outputs"
     fi
 
     imdb=$(echo $nfocontent | grep --only-matching --perl-regexp "tt[0-9]+")
@@ -141,7 +141,7 @@ do
           removeiso=0
         fi
 
-        dotnet /home/ftpuser/bdextract/BDExtractor.dll -p "$imagefile" -o "$location"
+        dotnet /home/sonic3r/myscripts/bdextract/BDExtractor.dll -p "$imagefile" -o "$location"
         
         # if can extract using above program, if not then use mount style and copy from there
         if [[ $? -eq 0 ]]; then
