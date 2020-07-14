@@ -11,7 +11,6 @@ if [[ "$blurayfolder" == "" ]]; then
 fi
 
 foldername=$(basename "$blurayfolder")
-bash 
 
 if [[ $screenshotnum -eq 0 || $screenshotnum == "" ]]; then
   screenshotnum=6

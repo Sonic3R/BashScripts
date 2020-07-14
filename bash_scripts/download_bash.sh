@@ -19,6 +19,7 @@ do
   fi
 
   wget $full_url $full_path
-
+  
+  dos2unix $full_path
   chmod +x $full_path
 done
