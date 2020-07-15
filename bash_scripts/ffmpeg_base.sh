@@ -44,6 +44,7 @@ if [[ $name == "" ]]; then
   name="$filename"
 fi
 
+clear
 i=1;
 while [[ $i -le $screenshotnum ]]
 do

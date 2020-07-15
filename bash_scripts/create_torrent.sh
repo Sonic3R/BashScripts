@@ -9,4 +9,5 @@ if [[ "$outputlocation" == "" ]]; then
   outputlocation="/home/sonic3r/myscripts/outputs/$foldername.torrent"
 fi
 
+clear
 dotnet /home/sonic3r/myscripts/torrentcreator/TorrentCreator.dll -f "$blurayfolder" -t "https://filelist.io" -p -l 16 -s $outputlocation

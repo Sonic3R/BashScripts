@@ -18,4 +18,5 @@ fi
 
 echo "$blurayfolder"
 foldername=$(basename "$blurayfolder")
+clear
 dotnet "$bdinfofolder/BDInfo.dll" -p "$blurayfolder" -r "$outputlocation" -o "${foldername}.txt" -b -a -l -y -k -m -j

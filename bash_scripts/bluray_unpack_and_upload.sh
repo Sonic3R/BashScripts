@@ -7,5 +7,6 @@ if [[ $folder == "" ]]; then
   exit
 fi
 
+clear
 bash /home/sonic3r/myscripts/bluray_aio.sh "$folder"
 bash /home/sonic3r/myscripts/upload.sh "$folder"

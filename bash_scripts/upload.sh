@@ -17,4 +17,5 @@ if [[ $kind == "" ]]; then
   kind="bluray"
 fi
 
+clear
 dotnet /home/sonic3r/myscripts/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c -t $kind
