@@ -23,6 +23,9 @@ ismultidisk() {
   fi
 }
 
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
 foldertolookin="$1"
 movetopath="/home/sonic3r/torrents/rtorrent/bluray"
 
@@ -84,3 +87,5 @@ multi=$(ismultidisk "$newfolder")
 if [[ $multi == 0 ]]; then
   bash /home/sonic3r/myscripts/upload.sh "$newfolder"
 fi
+
+IFS=$SAVEIFS

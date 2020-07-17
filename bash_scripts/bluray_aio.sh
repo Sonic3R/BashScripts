@@ -75,6 +75,7 @@ getsize(){
 }
 
 SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
 
 for blurayfolderitem in "$@"
 do
@@ -95,8 +96,6 @@ do
   removeiso=1
   foldername=$(basename "$blurayfolderitem")
   imagefiles=$iso
-
-  IFS=$(echo -en "\n\b")
 
   if [[ "$imagefiles" != "" ]]; then
     echo "$imagefiles"
@@ -191,6 +190,6 @@ do
 
     getandsaveimdb "$blurayfolderitem"
   fi
-
-  IFS=$SAVEIFS
 done
+
+IFS=$SAVEIFS

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
 path="$1"
 location="$2"
 kind="$3"
@@ -19,3 +22,5 @@ fi
 
 clear
 dotnet /home/sonic3r/myscripts/fluploader/FilelistUploader.dll -p "$path" -l "$location" -c -t $kind
+
+IFS=$SAVEIFS
