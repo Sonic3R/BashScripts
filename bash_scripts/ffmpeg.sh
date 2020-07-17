@@ -1,6 +1,9 @@
 #!/bin/bash
 args=("$@")
 
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
 blurayfolder=${args[0]}
 screenshotnum=${args[1]}
 outputlocation=${args[2]}
@@ -30,3 +33,5 @@ if [[ $bigfile == "" ]]; then
 fi
 
 bash /home/sonic3r/myscripts/ffmpeg_base.sh $bigfile $screenshotnum $outputlocation $foldername
+
+IFS=$SAVEIFS

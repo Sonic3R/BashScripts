@@ -1,6 +1,9 @@
 #!/bin/bash
 args=("$@")
 
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
 bigfile=${args[0]}
 screenshotnum=${args[1]}
 outputlocation=${args[2]}
@@ -54,3 +57,5 @@ do
   ffmpeg -ss $seconds -t 1 -i "$bigfile" -vcodec png -vframes 1 "${outputlocation}/${name}_${i}.png"
   i=$(( $i + 1 ))
 done
+
+IFS=$SAVEIFS
