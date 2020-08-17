@@ -10,7 +10,7 @@ if [[ $blurays == "" || $blurays == $lookin ]]; then
 fi
 
 for bluray in $blurays; do
-  busystatus=$(lsof +D "$bluray"/*)
+  busystatus=$(lsof +D "$bluray")
 
   if [[ $busystatus != "" ]]; then
     echo "$bluray is busy. Skipping"
