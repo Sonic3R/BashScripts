@@ -2,6 +2,27 @@ clear
 mntpath="/mnt/gdrive/BDs"
 transfersitem=2
 
+isDifferent() {
+  arr=$@
+
+  isdiff=0
+  compare=0
+
+  for item in $arr; do
+     if [[ $compare == 0 ]]; then
+      compare=$item
+      continue
+     fi
+
+     if [[ $compare != $item ]]; then
+      isdiff=1
+      break
+     fi
+  done
+
+  echo $isdiff
+}
+
 for f in "$@"; do
         SAVEIFS=$IFS
         IFS=$(echo -en "\n\b")
@@ -42,7 +63,14 @@ for f in "$@"; do
                  num=0000
         else
                 arr=($num)
-                num=${arr[0]}
+                diff=$(isDifferent ${arr[@]})
+
+                if [[ $diff == 1 ]]; then
+                       num=0000
+                else
+                       num=${arr[0]}
+                fi
+
                 num=${num//.}
                 num=${num// }
                 num=${num//)}
