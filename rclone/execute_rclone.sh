@@ -1,25 +1,40 @@
 clear
 mntpath="/mnt/gdrive/BDs"
 transfersitem=2
+remove=1
+
+escapechars() {
+   num=$1
+
+   num=${num//.}
+   num=${num// }
+   num=${num//)}
+   num=${num//(}
+   num=${num//_}
+
+   echo $num
+}
 
 isDifferent() {
   arr=$@
 
   isdiff=0
   compare=0
+  escape=""
 
   for item in $arr; do
+     escape=$(escapechars $item)
+
      if [[ $compare == 0 ]]; then
-      compare=$item
+      compare=$escape
       continue
      fi
 
-     if [[ $compare != $item ]]; then
+     if [[ $compare != $escape ]]; then
       isdiff=1
       break
      fi
   done
-
   echo $isdiff
 }
 
@@ -56,7 +71,6 @@ for f in "$@"; do
                  mv $item $newpath
                  item=$newpath
         fi
-        
         num=$(echo "$itemname" | grep -o -E '[\s.(_][0-9]{4}[\s.)_]')
 
         if [[ $num == "" ]]; then
@@ -71,16 +85,22 @@ for f in "$@"; do
                        num=${arr[0]}
                 fi
 
-                num=${num//.}
-                num=${num// }
-                num=${num//)}
-                num=${num//(}
-                num=${num//_}
+                num=$(escapechars $num)
         fi
 
         echo $num
         echo Will copy from "$item" to "$mntpath/$num/$itemname"/
-
         rclone copy $item $mntpath/$num/$itemname/ --progress --transfers=$transfersitem
+
+        if [ $? -ne 0 ]; then
+          IFS=$SAVEIFS
+          continue
+        fi
+
+
+        if [[ $remove == 1 ]]; then
+                rm -rf $item
+        fi
+
         IFS=$SAVEIFS
 done
