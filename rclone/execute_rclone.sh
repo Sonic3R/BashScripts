@@ -15,6 +15,17 @@ escapechars() {
    echo $num
 }
 
+isTv() {
+  val="$1"
+
+  output=$(echo "$val" | grep -o -E '[\s.(_]S[0-9]{1,2}[\s.(_]?D((I|i)SC)?[0-9]{1,2}[\s.(_]')
+  if [[ $output == "" ]]; then
+    echo 0
+  else
+    echo 1
+  fi
+}
+
 isDifferent() {
   arr=$@
 
@@ -35,28 +46,29 @@ isDifferent() {
       break
      fi
   done
+
   echo $isdiff
 }
 
 for f in "$@"; do
-        SAVEIFS=$IFS
-        IFS=$(echo -en "\n\b")
+	SAVEIFS=$IFS
+	IFS=$(echo -en "\n\b")
 
-        item=$f
+	item=$f
 
-        if [[ $item == "" ]]; then
-                 echo No item defined
-                 IFS=$SAVEIFS
-                 exit 1
-        fi
+	if [[ $item == "" ]]; then
+		 echo No item defined
+		 IFS=$SAVEIFS
+		 exit 1
+	fi
 
-        itemname=$(basename "$item")
+	itemname=$(basename "$item")
 
-        if [[ $itemname == "" ]]; then
-                 echo Invalid name
-                 IFS=$SAVEIFS
-                 exit 1
-        fi
+	if [[ $itemname == "" ]]; then
+		 echo Invalid name
+		 IFS=$SAVEIFS
+		 exit 1
+	fi
 
         itemname=${itemname//\'/}
         itemname=${itemname// /.}
@@ -64,43 +76,51 @@ for f in "$@"; do
         itemname=${itemname//\[/}
         itemname=${itemname//\]/}
 
-        newpath="$(dirname $item)/$itemname"
-        echo $newpath
+	newpath="$(dirname $item)/$itemname"
+	echo $newpath
 
-        if [[ $newpath != $item ]]; then
-                 mv $item $newpath
-                 item=$newpath
-        fi
-        num=$(echo "$itemname" | grep -o -E '[\s.(_][0-9]{4}[\s.)_]')
+	if [[ $newpath != $item ]]; then
+		 mv $item $newpath
+		 item=$newpath
+	fi
 
-        if [[ $num == "" ]]; then
-                 num=0000
-        else
-                arr=($num)
-                diff=$(isDifferent ${arr[@]})
+	istv=$(isTv "$itemname")
 
-                if [[ $diff == 1 ]]; then
-                       num=0000
-                else
-                       num=${arr[0]}
-                fi
+	if [[ $istv == 1 ]]; then
+		echo Will copy from "$item" to "$mntpath/TV/$itemname"/
+		rclone copy $item $mntpath/TV/$itemname/ --progress --transfers=$transfersitem
+	else
+		num=$(echo "$itemname" | grep -o -E '[\s.(_][0-9]{4}[\s.)_]')
 
-                num=$(escapechars $num)
-        fi
+		if [[ $num == "" ]]; then
+			 num=0000
+		else
+			arr=($num)
+                	diff=$(isDifferent ${arr[@]})
 
-        echo $num
-        echo Will copy from "$item" to "$mntpath/$num/$itemname"/
-        rclone copy $item $mntpath/$num/$itemname/ --progress --transfers=$transfersitem
+	                if [[ $diff == 1 ]]; then
+        	               num=0000
+                	else
+	                       num=${arr[0]}
+			fi
 
-        if [ $? -ne 0 ]; then
-          IFS=$SAVEIFS
-          continue
-        fi
+			num=$(escapechars $num)
+		fi
 
+		echo $num
+		echo Will copy from "$item" to "$mntpath/Movies/$num/$itemname"/
 
-        if [[ $remove == 1 ]]; then
-                rm -rf $item
-        fi
+		rclone copy $item $mntpath/Movies/$num/$itemname/ --progress --transfers=$transfersitem
+	fi
 
-        IFS=$SAVEIFS
+	if [ $? -ne 0 ]; then
+       	  IFS=$SAVEIFS
+	  continue
+       	fi
+
+	if [[ $remove == 1 ]]; then
+		rm -rf $item
+	fi
+
+	IFS=$SAVEIFS
 done
