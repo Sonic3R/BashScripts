@@ -16,15 +16,15 @@ removechars() {
 }
 
 replacechars() {
-	itemname=$1
-	
-	itemname=${itemname//\'/}
-	itemname=${itemname// /.}
-	itemname=${itemname//_/.}
-	itemname=${itemname//\[/}
-	itemname=${itemname//\]/}
-	
-	echo $itemname
+   itemname=$1
+
+   itemname=${itemname//\'/}
+   itemname=${itemname// /.}
+   itemname=${itemname//_/.}
+   itemname=${itemname//\[/}
+   itemname=${itemname//\]/}
+
+   echo $itemname
 }
 
 isTv() {
@@ -101,25 +101,37 @@ for f in "$@"; do
 	fi
 		itemname=$(replacechars $itemname)
 		newpath="$(dirname $item)/$itemname"
+
 	echo $newpath
 
 	if [[ $newpath != $item ]]; then
 		 mv $item $newpath
 		 item=$newpath
 	fi
+	
+	totalfiles=$(find $newpath -type f | wc -l)
+	echo "Total $totalfiles items found"
+
+	if [[ $totalfiles -gt 300 ]]; then
+		transfersitem=10
+	else
+		transfersitem=5
+	fi
+
+	echo "Setting transfers number to $transfersitem"
 
 	istv=$(isTv "$itemname")
 
 	if [[ $istv == 1 ]]; then
 		arr=($(getTv $itemname))
 		len=${#arr[@]}
-		
+
 		if [[ $arr == "" || $len == 0 ]]; then
 			echo "Invalid TV format"
 			IFS=$SAVEIFS
 			continue
 		fi
-		
+
 		tvname=$(replacechars ${arr[0]})
 		echo Will copy from "$item" to "$mntpath/TV/$tvname/${arr[1]}/$itemname"/
 		rclone copy $item $mntpath/TV/$tvname/${arr[1]}/$itemname/ --progress --transfers=$transfersitem
