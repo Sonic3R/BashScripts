@@ -1,3 +1,19 @@
+function setStats {
+  bluray="$1"
+
+  stats=$(date +'%d.%m.%Y').upload
+  bluray=.
+  size=$(du -bs "$bluray" | cut -f 1)
+
+  if [[ -f $stats ]]; then
+    val=$(cat $stats)
+    echo $val
+    size=$(($size + $val))
+  fi
+
+  echo $size > $stats 
+}
+
 lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
 
 SAVEIFS=$IFS
@@ -20,8 +36,7 @@ for bluray in $blurays; do
     continue
   fi
 
-	size=$(du -bs "$bluray" | cut -f 1)
-	echo $size >> $stats
+  setStats "$bluray"
   bash execute_rclone.sh "$bluray"
 done
 
