@@ -1,8 +1,17 @@
-function setStats {
+function getsize {
   folder="$1"
 
   stats=$(getfolder)
   size=$(du -bs "$folder" | cut -f 1)
+
+  echo $size
+}
+
+function setStats {
+  folder="$1"
+
+  stats=$(getfolder)
+  size=$(getsize "$folder")
 
   if [[ -f $stats ]]; then
     val=$(cat $stats)
@@ -37,6 +46,8 @@ if [[ $blurays == "" || $blurays == $lookin ]]; then
    exit 1
 fi
 
+step=0
+
 for bluray in $blurays; do
   busystatus=$(lsof +D "$bluray")
 
@@ -45,6 +56,9 @@ for bluray in $blurays; do
     continue
   fi
 
+  curr=$(getsize "$bluray")
+  step=$(($step + $curr))
+
   setStats "$bluray"
   bash execute_rclone.sh "$bluray"
 done
@@ -52,8 +66,10 @@ done
 IFS=$SAVEIFS
 
 uploaded=$(uploadedToday)
-echo "Uploaded today: $uploaded"
-
+formatstep=$(echo $step | awk '{print $1/1024/1024/1024} " GB "')
 uploadqty=$(echo $uploaded | cut -f 1 -d ' ')
 diff=$(echo "750 $uploadqty" | awk '{print $1 - $2}')
+
+echo "Current step uploaded: $formatstep"
+echo "Total uploaded today: $uploaded"
 echo "Remaining: $diff GB"
