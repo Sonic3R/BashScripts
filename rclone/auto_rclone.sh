@@ -9,6 +9,9 @@ if [[ $blurays == "" || $blurays == $lookin ]]; then
    exit 1
 fi
 
+stats=$(date +'%d.%m.%Y').upload
+size=0
+
 for bluray in $blurays; do
   busystatus=$(lsof +D "$bluray")
 
@@ -17,6 +20,8 @@ for bluray in $blurays; do
     continue
   fi
 
+	size=$(du -bs "$bluray" | cut -f 1)
+	echo $size >> $stats
   bash execute_rclone.sh "$bluray"
 done
 
