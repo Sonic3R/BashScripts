@@ -1,7 +1,7 @@
 function setStats {
   folder="$1"
 
-  stats=$(date +'%d.%m.%Y').upload
+  stats=$(getfolder)
   size=$(du -bs "$folder" | cut -f 1)
 
   if [[ -f $stats ]]; then
@@ -10,6 +10,20 @@ function setStats {
   fi
 
   echo $size > $stats
+}
+
+function uploadedToday {
+  stats=$(getfolder)
+  awk '{print $1/1024/1024/1024 " GB "}' $stats
+}
+
+function getfolder {
+    stats=$(date +'%d.%m.%Y').upload
+    echo $stats
+
+    if [[ ! -f $stats ]]; then
+      echo 0 > $stats
+    fi
 }
 
 lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
@@ -36,3 +50,10 @@ for bluray in $blurays; do
 done
 
 IFS=$SAVEIFS
+
+uploaded=$(uploadedToday)
+echo "Uploaded today: $uploaded"
+
+uploadqty=$(echo $uploaded | cut -f 1 -d ' ')
+diff=$(echo "750 $uploadqty" | awk '{print $1 - $2}')
+echo "Remaining: $diff GB"
