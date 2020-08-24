@@ -56,30 +56,6 @@ getTv() {
   echo ${arr[@]}
 }
 
-isDifferent() {
-  arr=$@
-
-  isdiff=0
-  compare=0
-  escape=""
-
-  for item in $arr; do
-     escape=$(removechars $item)
-
-     if [[ $compare == 0 ]]; then
-      compare=$escape
-      continue
-     fi
-
-     if [[ $compare != $escape ]]; then
-      isdiff=1
-      break
-     fi
-  done
-
-  echo $isdiff
-}
-
 for f in "$@"; do
 	SAVEIFS=$IFS
 	IFS=$(echo -en "\n\b")
@@ -108,14 +84,14 @@ for f in "$@"; do
 		 mv $item $newpath
 		 item=$newpath
 	fi
-	
+
 	totalfiles=$(find $newpath -type f | wc -l)
 	echo "Total $totalfiles items found"
 
 	if [[ $totalfiles -gt 300 ]]; then
-		transfersitem=10
+		transfersitem=8
 	else
-		transfersitem=5
+		transfersitem=4
 	fi
 
 	echo "Setting transfers number to $transfersitem"
@@ -142,14 +118,7 @@ for f in "$@"; do
 			 num=0000
 		else
 			arr=($num)
-			diff=$(isDifferent ${arr[@]})
-
-			if [[ $diff == 1 ]]; then
-				num=0000
-			else
-				num=${arr[0]}
-			fi
-
+			num=${arr[0]}
 			num=$(removechars $num)
 		fi
 
