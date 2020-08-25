@@ -43,7 +43,7 @@ getTv() {
 
   output=$(echo "$val" | grep -o -E '(.+)[\s.(_]S[0-9]{2}[\s.(_]?D((I|i)SC)?[0-9]{2}[\s.(_]')
 
-  if [[ $output == ""]]; then
+  if [[ $output == "" ]]; then
     output=$(echo "$val" | grep -o -E '(.+)[\s.(_]S[0-9]{2}[\s.(_]')
   fi
 
@@ -101,6 +101,7 @@ for f in "$@"; do
 	echo "Setting transfers number to $transfersitem"
 
 	istv=$(isTv "$itemname")
+	mediafile=""
 
 	if [[ $istv == 1 ]]; then
 		arr=($(getTv $itemname))
@@ -115,6 +116,13 @@ for f in "$@"; do
 		tvname=$(replacechars ${arr[0]})
 		echo Will copy from "$item" to "$mntpath/TV/$tvname/${arr[1]}/$itemname"/
 		rclone copy $item $mntpath/TV/$tvname/${arr[1]}/$itemname/ --progress --transfers=$transfersitem
+		
+		mediafile=${tvname}.${arr[1]}.bdinfo
+		echo "" > $mediafile
+		
+		if [[ -f $mediafile ]]; then
+			rclone copy $mediafile $mntpath/TV/$tvname/${arr[1]}/ --progress
+		fi
 	else
 		num=$(echo "$itemname" | grep -o -E '[\s.(_][0-9]{4}[\s.)_]')
 
@@ -130,6 +138,13 @@ for f in "$@"; do
 		echo Will copy from "$item" to "$mntpath/Movies/$num/$itemname"/
 
 		rclone copy $item $mntpath/Movies/$num/$itemname/ --progress --transfers=$transfersitem
+
+		mediafile=${item}.bdinfo
+		echo "" > $mediafile
+
+		if [[ -f $mediafile ]]; then
+			rclone copy $mediafile $mntpath/Movies/$num/ --progress
+		fi
 	fi
 
 	if [ $? -ne 0 ]; then
@@ -139,6 +154,10 @@ for f in "$@"; do
 
 	if [[ $remove == 1 ]]; then
 		rm -rf $item
+
+		if [[ -f $mediafile ]]; then
+			rm $mediafile
+		fi
 	fi
 
 	IFS=$SAVEIFS
