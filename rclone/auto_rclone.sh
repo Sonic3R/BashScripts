@@ -23,7 +23,18 @@ function setStats {
 
 function uploadedToday {
   stats=$(getfolder)
-  awk '{print $1/1024/1024/1024 " GB "}' $stats
+  content=$(cat $stats)
+  result=$(getingb $content)
+  #result=$(awk '{print $1/1024/1024/1024 " GB "}' $stats)
+
+  echo $result
+}
+
+function getingb {
+  content=$1
+  result=$(echo $content | awk '{print $1/1024/1024/1024 " GB "}')
+
+  echo $result
 }
 
 function getfolder {
@@ -66,7 +77,7 @@ done
 IFS=$SAVEIFS
 
 uploaded=$(uploadedToday)
-formatstep=$(echo $step | awk '{print $1/1024/1024/1024} " GB "')
+formatstep=$(getingb $step)
 uploadqty=$(echo $uploaded | cut -f 1 -d ' ')
 diff=$(echo "750 $uploadqty" | awk '{print $1 - $2}')
 
