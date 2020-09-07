@@ -58,10 +58,15 @@ if [[ $blurays == "" || $blurays == $lookin ]]; then
 fi
 
 step=0
+len=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d | wc -l)
+index=0
 
 for bluray in $blurays; do
   busystatus=$(lsof +D "$bluray")
+  index=$((index + 1))
 
+  clear
+  echo Step ${index}/${len} 
   if [[ $busystatus != "" ]]; then
     echo "$bluray is busy. Skipping"
     continue
@@ -84,3 +89,4 @@ diff=$(echo "750 $uploadqty" | awk '{print $1 - $2}')
 echo "Current step uploaded: $formatstep"
 echo "Total uploaded today: $uploaded"
 echo "Remaining: $diff GB"
+df
