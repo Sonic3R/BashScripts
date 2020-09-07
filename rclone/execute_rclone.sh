@@ -31,6 +31,10 @@ isTv() {
 
   output=$(echo "$val" | grep -o -E '[\s.(_]S[0-9]{1,2}[\s.(_]?D((I|i)SC)?[0-9]{1,2}[\s.(_]')
   if [[ $output == "" ]]; then
+    output=$(echo "$val" | grep -o -E '(.+)[\s.(_]S[0-9]{2}[\s.(_]')
+  fi
+  
+  if [[ $output == "" ]]; then
     echo 0
   else
     echo 1
