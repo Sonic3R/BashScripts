@@ -1,7 +1,6 @@
-clear
+#clear
 mntpath="/mnt/gdrive/BDs"
 transfersitem=2
-remove=1
 
 removechars() {
    num=$1
@@ -79,14 +78,22 @@ for f in "$@"; do
 		IFS=$SAVEIFS
 		exit 1
 	fi
-		itemname=$(replacechars $itemname)
-		newpath="$(dirname $item)/$itemname"
+
+	isbusy=$(lsof +D "$item")
+	echo $isbusy
+
+	itemname=$(replacechars $itemname)
+	newpath="$(dirname $item)/$itemname"
 
 	echo $newpath
 
 	if [[ $newpath != $item ]]; then
-		 mv $item $newpath
-		 item=$newpath
+		if [[ $isbusy == "" ]]; then
+			mv $item $newpath
+		else
+			cp -rf $item $newpath
+		fi
+	        item=$newpath
 	fi
 
 	totalfiles=$(find $newpath -type f | wc -l)
@@ -116,12 +123,13 @@ for f in "$@"; do
 		tvname=$(replacechars ${arr[0]})
 		echo Will copy from "$item" to "$mntpath/TV/$tvname/${arr[1]}/$itemname"/
 		rclone copy $item $mntpath/TV/$tvname/${arr[1]}/$itemname/ --progress --transfers=$transfersitem
-		
+
 		mediafile=${tvname}.${arr[1]}.bdinfo
 		echo "" > $mediafile
-		
+
 		if [[ -f $mediafile ]]; then
-			rclone copy $mediafile $mntpath/TV/$tvname/${arr[1]}/ --progress
+			a=1
+			#rclone copy $mediafile $mntpath/TV/$tvname/${arr[1]}/ --progress
 		fi
 	else
 		num=$(echo "$itemname" | grep -o -E '[\s.(_][0-9]{4}[\s.)_]')
@@ -143,7 +151,8 @@ for f in "$@"; do
 		echo "" > $mediafile
 
 		if [[ -f $mediafile ]]; then
-			rclone copy $mediafile $mntpath/Movies/$num/ --progress
+			a=1
+			#rclone copy $mediafile $mntpath/Movies/$num/ --progress
 		fi
 	fi
 
@@ -152,13 +161,19 @@ for f in "$@"; do
 		continue
 	fi
 
-	if [[ $remove == 1 ]]; then
+	if [[ $isbusy == "" ]]; then
+		echo Removing $item
 		rm -rf $item
-
-		if [[ -f $mediafile ]]; then
-			rm $mediafile
+	else
+		if [[ $newpath != "" && -d $newpath ]]; then
+			echo Removing $newpath
+			rm -rf $newpath
 		fi
 	fi
+
+	if [[ -f $mediafile ]]; then
+        	rm $mediafile
+        fi
 
 	IFS=$SAVEIFS
 done
