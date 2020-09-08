@@ -48,7 +48,7 @@ function getfolder {
 
 function getBluray {
   bl="$1"
-  iso=$(find "$bl" -iname *.iso -maxdepth 1 -mindepth 1 -type f)
+  iso=$(find "$bl" -maxdepth 1 -mindepth 1 -type f -iname *.iso)
   if [[ $iso == "" ]]; then
     echo "$bl"
   else
