@@ -90,7 +90,7 @@ for bluray in $blurays; do
 
   setStats "$bluray"
   disc=$(getBluray "$bluray")
-  ./BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o ${name}.txt -b -a -l -y -k -m -j
+  ./BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o "${name}.txt" -b -a -l -y -k -m -j
   bash execute_rclone.sh "$bluray"
 done
 
