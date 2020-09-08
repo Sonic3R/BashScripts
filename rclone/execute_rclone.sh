@@ -127,6 +127,14 @@ for f in "$@"; do
 
 		tvname=$(replacechars ${arr[0]})
 		echo Will copy from "$item" to "$mntpath/TV/$tvname/${arr[1]}/$itemname"/
+		
+		exist=$(rclone lsf $mntpath/TV/$tvname/${arr[1]}/$itemname)
+		if [[ $exist != "" ]]; then
+			echo $itemname already exists
+			IFS=$SAVEIFS
+			continue
+		fi
+		
 		rclone copy $item $mntpath/TV/$tvname/${arr[1]}/$itemname/ --progress --transfers=$transfersitem
 
 		mediafile=${tvname}.${arr[1]}.bdinfo
@@ -149,6 +157,13 @@ for f in "$@"; do
 
 		echo $num
 		echo Will copy from "$item" to "$mntpath/Movies/$num/$itemname"/
+		
+		exist=$(rclone lsf $mntpath/Movies/$num/$itemname)
+		if [[ $exist != "" ]]; then
+			echo $itemname already exists
+			IFS=$SAVEIFS
+			continue
+		fi
 
 		rclone copy $item $mntpath/Movies/$num/$itemname/ --progress --transfers=$transfersitem
 
