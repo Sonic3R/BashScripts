@@ -71,8 +71,6 @@ step=0
 len=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d | wc -l)
 index=0
 
-cd /home/r0gu3ptm/myscripts/bdinfo
-
 for bluray in $blurays; do
   busystatus=$(lsof +D "$bluray")
   index=$((index + 1))
@@ -90,7 +88,7 @@ for bluray in $blurays; do
 
   setStats "$bluray"
   disc=$(getBluray "$bluray")
-  ./BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o "${name}.txt" -b -a -l -y -k -m -j
+  /home/r0gu3ptm/myscripts/bdinfo/BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o "${name}.txt" -b -a -l -y -k -m -j
   bash execute_rclone.sh "$bluray"
 done
 
