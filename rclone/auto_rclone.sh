@@ -46,6 +46,16 @@ function getfolder {
     fi
 }
 
+function getBluray {
+  bl="$1"
+  iso=$(find "$bl" -iname *.iso -maxdepth 1 -mindepth 1 -type f)
+  if [[ $iso == "" ]]; then
+    echo "$bl"
+  else
+    echo "$iso"
+  fi
+}
+
 lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
 
 SAVEIFS=$IFS
@@ -61,6 +71,8 @@ step=0
 len=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d | wc -l)
 index=0
 
+cd /home/r0gu3ptm/myscripts/bdinfo
+
 for bluray in $blurays; do
   busystatus=$(lsof +D "$bluray")
   index=$((index + 1))
@@ -72,10 +84,13 @@ for bluray in $blurays; do
     continue
   fi
 
+  name=$(basename "$bluray")
   curr=$(getsize "$bluray")
   step=$(($step + $curr))
 
   setStats "$bluray"
+  disc=$(getBluray "$bluray")
+  ./BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o ${name}.txt -b -a -l -y -k -m -j
   bash execute_rclone.sh "$bluray"
 done
 
