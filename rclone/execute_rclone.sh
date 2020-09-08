@@ -10,6 +10,7 @@ removechars() {
    num=${num//)}
    num=${num//(}
    num=${num//_}
+   num=${num//-}
 
    echo $num
 }
@@ -136,7 +137,7 @@ for f in "$@"; do
 			#rclone copy $mediafile $mntpath/TV/$tvname/${arr[1]}/ --progress
 		fi
 	else
-		num=$(echo "$itemname" | grep -o -E '[\s.(_][0-9]{4}[\s.)_]')
+		num=$(echo "$itemname" | grep -o -E '[\s.(_-][0-9]{4}[\s.)_-]')
 
 		if [[ $num == "" ]]; then
 			 num=0000
