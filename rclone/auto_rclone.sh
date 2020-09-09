@@ -93,6 +93,11 @@ for bluray in $blurays; do
     /home/r0gu3ptm/myscripts/bdinfo/BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o "${name}.txt" -b -a -l -y -k -m -j
   fi
   
+  if [ $? -ne 0 ]; then
+    echo "Error: going to next item"
+		continue
+	fi
+  
   bash execute_rclone.sh "$bluray"
 done
 
