@@ -56,14 +56,27 @@ function getBluray {
   fi
 }
 
-lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
+lookin="$1"
+top=$2
+
+if [[ $lookin == "" ]]; then
+	lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
+fi
+
+if [[ $top == "" ]]; then
+	top=0
+fi
 
 echo "Bucuresti456!" | sudo -S chown r0gu3ptm -R $lookin
 
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
-blurays=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d)
+if [[ $top -gt 0 ]]; then
+	blurays=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d | head -${top})
+else
+	blurays=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d)
+fi
 
 if [[ $blurays == "" || $blurays == $lookin ]]; then
    exit 1
