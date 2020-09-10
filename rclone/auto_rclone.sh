@@ -83,7 +83,9 @@ if [[ $blurays == "" || $blurays == $lookin ]]; then
 fi
 
 step=0
-len=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d | wc -l)
+arr=($blurays)
+len=${#arr[@]}
+#len=$(find "$lookin" -mindepth 1 -maxdepth 1 -type d | wc -l)
 index=0
 
 for bluray in $blurays; do
