@@ -58,7 +58,7 @@ function getBluray {
 
 lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
 
-sudo chown r0gu3ptm -R $lookin
+echo "Bucuresti456!" | sudo -S chown r0gu3ptm -R $lookin
 
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
