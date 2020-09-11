@@ -58,6 +58,7 @@ function getBluray {
 
 lookin="$1"
 top=$2
+dorclone=$3
 
 if [[ $lookin == "" ]]; then
 	lookin="/home/r0gu3ptm/rtorrent/download/bluray/"
@@ -65,6 +66,11 @@ fi
 
 if [[ $top == "" ]]; then
 	top=0
+fi
+
+if [[ $dorclone == "" ]]; then
+
+	dorclone=1
 fi
 
 echo "Bucuresti456!" | sudo -S chown r0gu3ptm -R $lookin
@@ -93,7 +99,7 @@ for bluray in $blurays; do
   index=$((index + 1))
 
   clear
-  echo Step ${index}/${len} 
+  echo Step ${index}/${len}
   if [[ $busystatus != "" ]]; then
     echo "$bluray is busy. Skipping"
     continue
@@ -105,17 +111,19 @@ for bluray in $blurays; do
 
   setStats "$bluray"
   disc=$(getBluray "$bluray")
-  
-  if [[ ! -f /home/r0gu3ptm/myscripts/${name}.txt ]]; then
-    /home/r0gu3ptm/myscripts/bdinfo/BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o "${name}.txt" -b -a -l -y -k -m -j
-  fi
-  
-  if [ $? -ne 0 ]; then
-    echo "Error: going to next item"
+
+	if [[ ! -f /home/r0gu3ptm/myscripts/${name}.txt ]]; then
+		/home/r0gu3ptm/myscripts/bdinfo/BDInfo -p "$disc" -r /home/r0gu3ptm/myscripts/ -o "${name}.txt" -b -a -l -y -k -m -j
+	fi
+
+	if [ $? -ne 0 ]; then
+		echo "Error: going to next item"
 		continue
 	fi
-  
-  bash execute_rclone.sh "$bluray"
+
+	if [[ $dorclone == 1 ]]; then
+		bash execute_rclone.sh "$bluray"
+	fi
 done
 
 IFS=$SAVEIFS
