@@ -31,7 +31,7 @@ movieseconds=$(ffmpeg -i "$bigfile" 2>&1 | grep "Duration"| cut -d ' ' -f 4 | se
 period=$((movieseconds/screenshotnum))
 
 if [[ $period > 300 ]];then
-  period=$(( $period - 100 ))
+  period=$(( $period - 200 ))
 fi
 
 echo "Movie seconds: $movieseconds"
