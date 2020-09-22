@@ -11,7 +11,6 @@ if [[ "$blurayfolder" == "" ]]; then
 fi
 
 foldername=$(basename "$blurayfolder")
-bash 
 
 if [[ $screenshotnum -eq 0 || $screenshotnum == "" ]]; then
   screenshotnum=6
@@ -21,7 +20,7 @@ if [[ "$outputlocation" == "" ]]; then
   outputlocation="/home/ftpuser"
 fi
 
-bigfile=$(find "${blurayfolder}/" -type f \( -iname *.m2ts -o -iname *.ssif \) -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
+bigfile=$(find "${blurayfolder}/" -type f \( -iname *.m2ts -o -iname *.ssif -o -iname *.mkv \) -printf '%s %p\n'| sort -nr | head -1 | sed 's/^[^ ]* //')
 
 echo Movie found: "$bigfile"
 
@@ -30,4 +29,4 @@ if [[ $bigfile == "" ]]; then
   exit 1
 fi
 
-bash /home/ffmpeg_base.sh $bigfile $screenshotnum $outputlocation $foldername
+bash /home/r0gu3ptm/myscripts/ffmpeg_base.sh $bigfile $screenshotnum $outputlocation $foldername
