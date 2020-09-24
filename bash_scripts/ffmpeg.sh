@@ -1,9 +1,13 @@
 #!/bin/bash
 args=("$@")
 
-blurayfolder=${args[0]}
+SAVEIFS=$IFS
+
+IFS=$(echo -en "\n\b")
+
+blurayfolder="${args[0]}"
 screenshotnum=${args[1]}
-outputlocation=${args[2]}
+outputlocation="${args[2]}"
 
 if [[ "$blurayfolder" == "" ]]; then
   echo No bluray folder specified
@@ -30,3 +34,5 @@ if [[ $bigfile == "" ]]; then
 fi
 
 bash /home/r0gu3ptm/myscripts/ffmpeg_base.sh $bigfile $screenshotnum $outputlocation $foldername
+
+IFS=$SAVEIFS
